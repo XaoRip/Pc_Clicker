@@ -1,0 +1,410 @@
+#clicker-pc {
+  display: block;
+  width: 10%;
+  height: auto;
+  margin-left: -140px;
+  margin-top: -320px;
+}
+
+body {
+  text-align: center;
+}   
+
+#Titulo {
+  font-size: 39px;
+  margin-top: 20px;
+  color: rgb(0, 0, 0); /* Rosa fuerte */
+  text-shadow:
+    0 0 5px rgba(0, 81, 255, 0.7),
+    0 0 10px rgba(0, 81, 255, 0.7),
+    0 0 20px rgba(0, 81, 255, 0.6),
+    0 0 40px rgba(0, 81, 255, 0.5),
+    0 0 80px rgba(0, 81, 255, 0.4);
+}
+
+#contador {
+    font-size: 24px;
+    margin-top: 40px;
+    margin-right: 40px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+}
+
+.container {
+    background: url('fondo1.png') center 75%/cover no-repeat;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    box-sizing: border-box;
+    padding: 0 0;
+    z-index: 0;
+}
+
+.clicker {
+    background: url('pc.png') center/cover no-repeat;
+    margin-left: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 550px;
+    height: 550px;
+    position: relative; /* Añade esto */
+}
+
+#toggle-tienda {
+    background-color: #ff0096;
+    border-radius: 100px;
+    width: 100px;
+    height: 40px;
+    position: fixed;
+    top: 30px;
+    right: 20px;
+    z-index: 20;
+    transition: right 0.4s cubic-bezier(.77,0,.18,1);
+    box-shadow: 0 2px 8px #ff009655;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    border: 2px solid #fff;
+    transition: right 0.4s cubic-bezier(.77,0,.18,1), background 0.2s;
+}
+
+#toggle-tienda.abierta {
+    right: 350px; /* Mueve el botón junto con la tienda */
+}
+
+#toggle-tienda:hover {
+    background: #ff33b8;
+}
+
+.ventana-navegador {
+    position: absolute; /* Cambia de fixed a absolute */
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(60,60,60,0.18), 0 1.5px 0 #e3e3e3 inset;
+    border: none;
+    display: none;
+    flex-direction: column;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.ventana-navegador.abierta {
+    display: flex;
+    animation: fadeInTienda 0.3s;
+}
+
+@keyframes fadeInTienda {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.barra-navegador {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    background: linear-gradient(90deg, #f7f7f8 80%, #e3e3e3 100%);
+    border-radius: 18px 18px 0 0;
+    border-bottom: 1px solid #e3e3e3;
+    padding: 0 16px;
+    position: relative;
+    user-select: none;
+    box-shadow: 0 2px 8px #e3e3e355;
+}
+
+.boton {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    margin-top: 2px;
+    border: none;
+    box-shadow: 0 1px 2px #0001;
+}
+.navegador-cerrar { background: #ff5f56; }
+.navegador-min   { background: #ffbd2e; }
+.navegador-max   { background: #27c93f; }
+
+.barra-titulo {
+    font-weight: 500;
+    color: #444;
+    margin-left: 14px;
+    font-size: 1.13rem;
+    letter-spacing: 0.2px;
+    flex: 1;
+    text-align: left;
+    opacity: 0.85;
+}
+
+#tienda {
+    flex: 1 1 auto;
+    background: #fff;
+    border-radius: 0 0 18px 18px;
+    box-shadow: none;
+    padding: 28px 18px 18px 18px;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    color: #222;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    overflow-y: auto;
+    border: none;
+}
+
+.item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 16px 16px 16px;
+    margin: 0 0 18px 0;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(34,34,34,0.10);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 22px;
+    cursor: pointer;
+    border: 2px solid #ececec;
+    transition: box-shadow 0.2s, border 0.2s, background 0.2s, transform 0.15s;
+    position: relative;
+}
+.item:hover {
+    background: #f7f7fa;
+    border: 2px solid #ffd700;
+    box-shadow: 0 8px 24px #ffd70033;
+    transform: translateY(-2px) scale(1.03);
+}
+
+.item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffd70022;
+    background: #fff;
+    border: 1.5px solid #e3e3e3;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item-titulo {
+    font-size: 1.22rem;
+    font-weight: bold;
+    color: #ff0096;
+    margin: 0 0 2px 0;
+}
+
+.item-desc {
+    color: #232f3e;
+    font-size: 1.01rem;
+    margin: 0 0 4px 0;
+}
+
+.item-precio {
+    color: #b12704;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.buy-button, .buy-autoclicker {
+    margin-top: 0;
+    padding: 10px 22px;
+    border-radius: 7px;
+    border: none;
+    background: linear-gradient(90deg, #ffd700 60%, #ff9900 100%);
+    color: #232f3e;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #ffd70055;
+    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+    font-size: 1.08rem;
+    border: 1.5px solid #ff9900;
+    letter-spacing: 0.5px;
+}
+.buy-button:disabled, .buy-autoclicker:disabled {
+    background: #eee;
+    box-shadow: none;
+    cursor: not-allowed;
+    color: #aaa;
+    border: 1.5px solid #ccc;
+}
+
+#Titulo,
+#contador,
+#clicker-pc {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+#poder-clicks {
+  background-color: #eee;
+  border-radius: 100px;
+    margin-bottom: 15px;
+    margin-left: 200px;
+    font-size: 18px;
+    color: #ff0096;
+    text-shadow: 0 0 8px #ff0096, 0 0 16px #fff;
+    user-select: none;
+  padding: 10px 35px;
+}
+
+.barra-zamazon {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(90deg, #232f3e 80%, #37475a 100%);
+    padding: 0 18px;
+    height: 48px;
+    border-bottom: 2px solid #ffd700;
+}
+
+.logo-zamazon {
+    width: 100px;
+    height: 48px;
+    margin-right: 18px;
+}
+
+
+.buscador-zamazon {
+    flex: 1;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    padding: 0 12px;
+    font-size: 1rem;
+    margin-right: 18px;
+    background: #fff;
+    color: #222;
+    box-shadow: 0 1px 4px #0001;
+}
+
+.nav-links {
+    display: flex;
+    gap: 18px;
+}
+
+.nav-links span {
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-size: 1rem;
+}
+.nav-links span:hover {
+    color: #ffd700;
+}
+
+.panel-producto {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: opacity 0.2s;
+}
+.panel-producto.oculto {
+    display: none;
+}
+.panel-contenido {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 32px 28px 24px 28px;
+    min-width: 320px;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.panel-contenido img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 18px;
+}
+.panel-contenido h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.3rem;
+    color: #232f3e;
+}
+.panel-contenido p {
+    color: #444;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+#panel-precio {
+    color: #b12704;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+    display: block;
+}
+#panel-comprar-btn {
+    margin-top: 0;
+    padding: 10px 22px;
+    border-radius: 7px;
+    border: none;
+    background: linear-gradient(90deg, #ffd700 60%, #ff9900 100%);
+    color: #232f3e;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #ffd70055;
+    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+    font-size: 1.08rem;
+    border: 1.5px solid #ff9900;
+    letter-spacing: 0.5px;
+}
+.cerrar-panel {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s, transform 0.1s;
+}
+.navegador-cerrar {
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+.navegador-cerrar:hover {
+    background: #ff2e2e;
+    transform: scale(1.15);
+}
