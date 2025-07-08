@@ -1,123 +1,95 @@
-#clicker-pc {
-  display: block;
-  width: 10%;
-  height: auto;
-  margin-left: -140px;
-  margin-top: -320px;
-}
-
-body {
-  text-align: center;
-}   
-
-#Titulo {
-  font-size: 39px;
-  margin-top: 20px;
-  color: rgb(0, 0, 0); /* Rosa fuerte */
-  text-shadow:
-    0 0 5px rgba(0, 81, 255, 0.7),
-    0 0 10px rgba(0, 81, 255, 0.7),
-    0 0 20px rgba(0, 81, 255, 0.6),
-    0 0 40px rgba(0, 81, 255, 0.5),
-    0 0 80px rgba(0, 81, 255, 0.4);
-}
-
-#contador {
-    font-size: 24px;
-    margin-top: 40px;
-    margin-right: 40px;
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; 
-}
-
+/* Esto es el fondo  */
 .container {
-    background: url('fondo1.png') center 75%/cover no-repeat;
-    width: 100vw;
-    height: 100vh;
+    background: url('fondo1.png') center 74%/cover no-repeat;
     position: fixed;
     inset: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 40px;
-    box-sizing: border-box;
-    padding: 0 0;
-    z-index: 0;
 }
 
-.clicker {
-    background: url('pc.png') center/cover no-repeat;
-    margin-left: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 550px;
-    height: 550px;
-    position: relative; /* Añade esto */
+.computadora {
+    position: relative;
+    width: 700px;   
+    height: 700px;  
+    margin-left: 200px;
+    margin-top: 250px;
 }
 
-#toggle-tienda {
-    background-color: #ff0096;
-    border-radius: 100px;
-    width: 100px;
+/* Esto es la imagen de la computadora */
+#pc {
+    width: 100%;
+    height: 100%;
+    display: block;
+    margin: -270px auto;
+}
+
+/* Esto es el bitcoint que clickeas*/
+#clicker {
+    position: absolute;
+    width: 60px;    
+    height: 60px;
+    left: 230px;    
+    top: 100px; 
+}
+
+/* Esto es el teclado */
+#teclado {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    top: -35px;
+}
+
+/* Esto es el texto de la cantidad de bitcoins */
+#bitcoin {
+    position: absolute;
+    left: 280px;
+    top: 215px;
+    font-size: 18px;
+    color: rgb(189, 188, 188);
+}
+
+/* Esto es el boton de la tienda */
+#tienda {
+    position: absolute;
+    width: 40px;
     height: 40px;
-    position: fixed;
-    top: 30px;
-    right: 20px;
-    z-index: 20;
-    transition: right 0.4s cubic-bezier(.77,0,.18,1);
-    box-shadow: 0 2px 8px #ff009655;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
-    border: 2px solid #fff;
-    transition: right 0.4s cubic-bezier(.77,0,.18,1), background 0.2s;
+    left: 385px;
+    top: 85px;
+    cursor: pointer;
+    border-radius: 30%;  
+
 }
 
-#toggle-tienda.abierta {
-    right: 350px; /* Mueve el botón junto con la tienda */
-}
+/* --- INICIO TIENDA ZAMAZON --- */
 
-#toggle-tienda:hover {
-    background: #ff33b8;
-}
-
-.ventana-navegador {
-    position: absolute; /* Cambia de fixed a absolute */
-    top: 10px;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-    width: auto;
+.ventana-navegador, #ventana-tienda {
+    position: fixed; /* Cambia de absolute a fixed */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     min-width: 0;
     max-width: none;
     background: #fff;
-    border-radius: 18px;
+    border-radius: 0; /* Sin bordes redondeados para ocupar todo */
     box-shadow: 0 8px 32px 0 rgba(60,60,60,0.18), 0 1.5px 0 #e3e3e3 inset;
     border: none;
     display: none;
     flex-direction: column;
-    z-index: 10;
+    z-index: 100;
     overflow: hidden;
 }
-
-.ventana-navegador.abierta {
+.ventana-navegador.abierta, #ventana-tienda.abierta {
     display: flex;
     animation: fadeInTienda 0.3s;
 }
-
 @keyframes fadeInTienda {
     from { opacity: 0; transform: scale(0.97); }
     to { opacity: 1; transform: scale(1); }
 }
 
-.barra-navegador {
+.barra-navegador, .barra-zamazon {
     display: flex;
     align-items: center;
     height: 44px;
@@ -128,6 +100,7 @@ html, body {
     position: relative;
     user-select: none;
     box-shadow: 0 2px 8px #e3e3e355;
+    gap: 18px;
 }
 
 .boton {
@@ -138,7 +111,7 @@ html, body {
     margin-right: 8px;
     margin-top: 2px;
     border: none;
-    box-shadow: 0 1px 2px #0001;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.067);
 }
 .navegador-cerrar { background: #ff5f56; }
 .navegador-min   { background: #ffbd2e; }
@@ -155,12 +128,10 @@ html, body {
     opacity: 0.85;
 }
 
-#tienda {
+#tienda, .tienda-contenido {
     flex: 1 1 auto;
-    background: #fff;
     border-radius: 0 0 18px 18px;
     box-shadow: none;
-    padding: 28px 18px 18px 18px;
     min-width: 0;
     max-width: 100%;
     height: auto;
@@ -236,7 +207,7 @@ html, body {
     margin-bottom: 7px;
 }
 
-.buy-button, .buy-autoclicker {
+.buy-button, .buy-autoclicker, #panel-comprar-btn {
     margin-top: 0;
     padding: 10px 22px;
     border-radius: 7px;
@@ -251,33 +222,12 @@ html, body {
     border: 1.5px solid #ff9900;
     letter-spacing: 0.5px;
 }
-.buy-button:disabled, .buy-autoclicker:disabled {
+.buy-button:disabled, .buy-autoclicker:disabled, #panel-comprar-btn:disabled {
     background: #eee;
     box-shadow: none;
     cursor: not-allowed;
     color: #aaa;
     border: 1.5px solid #ccc;
-}
-
-#Titulo,
-#contador,
-#clicker-pc {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-}
-
-#poder-clicks {
-  background-color: #eee;
-  border-radius: 100px;
-    margin-bottom: 15px;
-    margin-left: 200px;
-    font-size: 18px;
-    color: #ff0096;
-    text-shadow: 0 0 8px #ff0096, 0 0 16px #fff;
-    user-select: none;
-  padding: 10px 35px;
 }
 
 .barra-zamazon {
@@ -295,7 +245,6 @@ html, body {
     height: 48px;
     margin-right: 18px;
 }
-
 
 .buscador-zamazon {
     flex: 1;
@@ -326,6 +275,7 @@ html, body {
     color: #ffd700;
 }
 
+/* Panel de producto (emergente) */
 .panel-producto {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -375,21 +325,6 @@ html, body {
     margin-bottom: 18px;
     display: block;
 }
-#panel-comprar-btn {
-    margin-top: 0;
-    padding: 10px 22px;
-    border-radius: 7px;
-    border: none;
-    background: linear-gradient(90deg, #ffd700 60%, #ff9900 100%);
-    color: #232f3e;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #ffd70055;
-    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-    font-size: 1.08rem;
-    border: 1.5px solid #ff9900;
-    letter-spacing: 0.5px;
-}
 .cerrar-panel {
     position: absolute;
     top: 12px;
@@ -400,11 +335,9 @@ html, body {
     font-weight: bold;
     transition: background 0.2s, transform 0.1s;
 }
-.navegador-cerrar {
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-}
-.navegador-cerrar:hover {
-    background: #ff2e2e;
+.cerrar-panel:hover {
+    color: #ff0096;
     transform: scale(1.15);
 }
+
+/* --- FIN TIENDA ZAMAZON --- */

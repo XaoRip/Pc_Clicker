@@ -7,154 +7,158 @@
     <script src="java.js" defer></script>
 </head>
 <body>
-<div class="container">
-    <div>
-        <p id="poder-clicks">Poder de Clicks : 1 | Clicks automáticos por segundo: 0</p>
-        <div class="clicker">
-            <h1 id="Titulo">PC Clicker</h1>
-            <img id="clicker-pc" src="bitcoin.png" alt="Clicker PC">
-            <p id="contador">0</p>
-        </div>
-    </div>    
 
-    <!-- Botón para abrir/cerrar la tienda -->
-    <button id="toggle-tienda" style="z-index:1001; position:fixed; top:20px; right:20px; background:#ff0096; color:#fff; border-radius:100px; width:44px; height:44px; font-size:1.7rem; font-weight:bold; border:none; display:flex; align-items:center; justify-content:center; transition:background 0.2s; cursor:pointer;">🛒</button>
-    <div class="ventana-navegador oculto" id="ventana-navegador" style="display:none; position:fixed; top:10px; left:10px; right:10px; bottom:10px; width:auto; height:auto; max-width:none; max-height:none; margin:0; padding:0;">
-      <div class="barra-navegador">
-        <!-- <span class="boton navegador-cerrar" id="cerrar-tienda"></span> -->
+<div class="container">
+
+<div class="computadora">
+    <img id="pc" src="pc.png" alt="PC">
+    <img id="clicker" src="clicker.png" alt="Bitcoin">
+    <img id="teclado" src="teclado1.png" alt="Teclado">
+    <p id="bitcoin">Bitcoins: $0</p>
+    <img src="tienda.png" alt="tienda" id="tienda">
+
+    <div id="ventana-tienda" style="display:none;">
+        <!-- Barra superior de la tienda -->
         <span class="boton navegador-min"></span>
         <span class="boton navegador-max"></span>
         <span class="barra-titulo">https://www.zamazon.com/-/es/</span>
-      </div>
-      <div class="barra-zamazon">
-        <img src="Zamazon_logo.png" alt="Zamazon" class="logo-zamazon">
-        <input class="buscador-zamazon" type="text" placeholder="Buscar en Zamazon...">
-        <div class="nav-links">
-            <span>Ofertas</span>
-            <span>Componentes</span>
-            <span>Mi cuenta</span>
-            <span>Carrito</span>
+        <!-- Barra de búsqueda y navegación -->
+        <div class="barra-zamazon">
+            <img src="Zamazon_logo.png" alt="Zamazon" class="logo-zamazon">
+            <input class="buscador-zamazon" type="text" placeholder="Buscar en Zamazon...">
+            <div class="nav-links">
+                <span>Ofertas</span>
+                <span>Componentes</span>
+                <span>Mi cuenta</span>
+                <span>Carrito</span>
+            </div>
         </div>
-      </div>
-      <div id="tienda">
-          <h2>Zamazon</h2>
-          <div class="item"
-     data-mejora="procesador"
-     data-costo="50"
-     data-titulo="Procesador"
-     data-desc="Maximiza la eficiencia de cada clic."
-     data-precio="50"
-     data-img="procesador.png">
-              <img src="procesador.png" alt="Procesador">
-              <div class="item-info">
-                  <span class="item-titulo">Procesador</span>
-                  <span class="item-desc">Maximiza la eficiencia de cada clic.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="ram"
-     data-costo="100"
-     data-titulo="RAM"
-     data-desc="Aumenta la potencia de los clics automáticos."
-     data-precio="100"
-     data-img="ram.png">
-              <img src="ram.png" alt="RAM">
-              <div class="item-info">
-                  <span class="item-titulo">RAM</span>
-                  <span class="item-desc">Aumenta la potencia de los clics automáticos.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="placa-video"
-     data-costo="200"
-     data-titulo="Placa de Video"
-     data-desc="Permite clics automáticos."
-     data-precio="200"
-     data-img="placa-video.png">
-              <img src="placa-video.png" alt="Placa de Video">
-              <div class="item-info">
-                  <span class="item-titulo">Placa de Video</span>
-                  <span class="item-desc">Permite clics automáticos.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="disco"
-     data-costo="150"
-     data-titulo="Disco Duro"
-     data-desc="Aumenta el máximo de monedas almacenables."
-     data-precio="150"
-     data-img="disco-duro.png">
-              <img src="disco-duro.png" alt="Disco Duro">
-              <div class="item-info">
-                  <span class="item-titulo">Disco Duro</span>
-                  <span class="item-desc">Aumenta el máximo de monedas almacenables.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="monitor"
-     data-costo="120"
-     data-titulo="Monitor"
-     data-desc="Aumenta el área de clic."
-     data-precio="120"
-     data-img="monitor.png">
-              <img src="monitor.png" alt="Monitor">
-              <div class="item-info">
-                  <span class="item-titulo">Monitor</span>
-                  <span class="item-desc">Aumenta el área de clic.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="gabinete"
-     data-costo="180"
-     data-titulo="Gabinete"
-     data-desc="Permite más componentes en tu sistema."
-     data-precio="180"
-     data-img="gabinete.png">
-              <img src="gabinete.png" alt="Gabinete">
-              <div class="item-info">
-                  <span class="item-titulo">Gabinete</span>
-                  <span class="item-desc">Permite más componentes en tu sistema.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="motherboard"
-     data-costo="220"
-     data-titulo="Placa Madre"
-     data-desc="Mejora compatibilidad y estabilidad."
-     data-precio="220"
-     data-img="motherboard.png">
-              <img src="motherboard.png" alt="Placa Madre">
-              <div class="item-info">
-                  <span class="item-titulo">Placa Madre</span>
-                  <span class="item-desc">Mejora compatibilidad y estabilidad.</span>
-              </div>
-          </div>
-          <div class="item"
-     data-mejora="explorador"
-     data-costo="80"
-     data-titulo="Explorador de Archivos"
-     data-desc="Personaliza tu fondo de juego."
-     data-precio="80"
-     data-img="explorador.png">
-              <img src="explorador.png" alt="Explorador de Archivos">
-              <div class="item-info">
-                  <span class="item-titulo">Explorador de Archivos</span>
-                  <span class="item-desc">Personaliza tu fondo de juego.</span>
-              </div>
-          </div>
-      </div>
-    </div>
-    <div id="panel-producto" class="panel-producto oculto">
-    <div class="panel-contenido">
-        <span class="cerrar-panel">&times;</span>
-        <img id="panel-img" src="" alt="">
-        <h3 id="panel-titulo"></h3>
-        <p id="panel-desc"></p>
-        <span id="panel-precio"></span>
-        <button id="panel-comprar-btn">Comprar / Mejorar</button>
+        <!-- Contenido de la tienda -->
+        <div class="tienda-contenido">
+            <h2>Zamazon</h2>
+            <div class="item"
+                data-mejora="procesador"
+                data-costo="50"
+                data-titulo="Procesador"
+                data-desc="Maximiza la eficiencia de cada clic."
+                data-precio="50"
+                data-img="procesador.png">
+                <img src="procesador.png" alt="Procesador">
+                <div class="item-info">
+                    <span class="item-titulo">Procesador</span>
+                    <span class="item-desc">Maximiza la eficiencia de cada clic.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="ram"
+                data-costo="100"
+                data-titulo="RAM"
+                data-desc="Aumenta la potencia de los clics automáticos."
+                data-precio="100"
+                data-img="ram.png">
+                <img src="ram.png" alt="RAM">
+                <div class="item-info">
+                    <span class="item-titulo">RAM</span>
+                    <span class="item-desc">Aumenta la potencia de los clics automáticos.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="placa-video"
+                data-costo="200"
+                data-titulo="Placa de Video"
+                data-desc="Permite clics automáticos."
+                data-precio="200"
+                data-img="placa-video.png">
+                <img src="placa-video.png" alt="Placa de Video">
+                <div class="item-info">
+                    <span class="item-titulo">Placa de Video</span>
+                    <span class="item-desc">Permite clics automáticos.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="disco"
+                data-costo="150"
+                data-titulo="Disco Duro"
+                data-desc="Aumenta el máximo de monedas almacenables."
+                data-precio="150"
+                data-img="disco-duro.png">
+                <img src="disco-duro.png" alt="Disco Duro">
+                <div class="item-info">
+                    <span class="item-titulo">Disco Duro</span>
+                    <span class="item-desc">Aumenta el máximo de monedas almacenables.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="monitor"
+                data-costo="120"
+                data-titulo="Monitor"
+                data-desc="Aumenta el área de clic."
+                data-precio="120"
+                data-img="monitor.png">
+                <img src="monitor.png" alt="Monitor">
+                <div class="item-info">
+                    <span class="item-titulo">Monitor</span>
+                    <span class="item-desc">Aumenta el área de clic.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="gabinete"
+                data-costo="180"
+                data-titulo="Gabinete"
+                data-desc="Permite más componentes en tu sistema."
+                data-precio="180"
+                data-img="gabinete.png">
+                <img src="gabinete.png" alt="Gabinete">
+                <div class="item-info">
+                    <span class="item-titulo">Gabinete</span>
+                    <span class="item-desc">Permite más componentes en tu sistema.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="motherboard"
+                data-costo="220"
+                data-titulo="Placa Madre"
+                data-desc="Mejora compatibilidad y estabilidad."
+                data-precio="220"
+                data-img="motherboard.png">
+                <img src="motherboard.png" alt="Placa Madre">
+                <div class="item-info">
+                    <span class="item-titulo">Placa Madre</span>
+                    <span class="item-desc">Mejora compatibilidad y estabilidad.</span>
+                </div>
+            </div>
+            <div class="item"
+                data-mejora="explorador"
+                data-costo="80"
+                data-titulo="Explorador de Archivos"
+                data-desc="Personaliza tu fondo de juego."
+                data-precio="80"
+                data-img="explorador.png">
+                <img src="explorador.png" alt="Explorador de Archivos">
+                <div class="item-info">
+                    <span class="item-titulo">Explorador de Archivos</span>
+                    <span class="item-desc">Personaliza tu fondo de juego.</span>
+                </div>
+            </div>
+        </div>
+        <!-- Panel de producto (emergente) -->
+        <div id="panel-producto" class="panel-producto oculto">
+            <div class="panel-contenido">
+                <span class="cerrar-panel">&times;</span>
+                <img id="panel-img" src="" alt="">
+                <h3 id="panel-titulo"></h3>
+                <p id="panel-desc"></p>
+                <span id="panel-precio"></span>
+                <button id="panel-comprar-btn">Comprar / Mejorar</button>
+            </div>
+        </div>
     </div>
 </div>
 
+
+
 </div>
+
+
 </body>
 </html>
