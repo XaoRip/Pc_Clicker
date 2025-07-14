@@ -1,124 +1,313 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- CLICKER ---
-    let bitcoins = 0;
+    // Variables del juego
+    let bitcoin = 0;
+    let gabinetepts = 0;
     let incremento = 1;
     let autoclicks = 0;
     let autoclickerIncrement = 1;
-    let maxMonedas = 1000;
-    let areaClick = 1;
-    let componentesExtra = 0;
-    let compatibilidad = 1;
-    let fondoPersonalizado = false;
+    let maxMonedas = 500;   
+    let gabcompradoM = false;
+    let gabcompradoR = false;
+    let gabcompradoC = false;
+    let gabcompradoG = false;
+    let Clevel = 0;
+    let Rlevel = 0;
+    let Glevel = 0;
+    let Dlevel = 0;
+    let Molevel = 0;
+    let Gablevel = 0;
+    let Mlevel = 0;
+    let Elevel = 0;
 
+    // Elementos del DOM
     const clicker = document.getElementById('clicker');
     const bitcoinElem = document.getElementById('bitcoin');
+    const clicksElem = document.getElementById('clicks');
+    const autoClicksElem = document.getElementById('auto-clicks');
+    const pc = document.getElementById('pc');
+    const teclado = document.getElementById('teclado');
+    const bitcoinTienda = document.getElementById('bitcoin-tienda');
+    const archivosBtn = document.getElementById('archivos');
+    const ventanaExplorador = document.getElementById('ventana-explorador');
+    const cerrarExploradorBtn = document.querySelector('.cerrar-explorador');
 
-    function actualizarBitcoin() {
-        bitcoinElem.textContent = `Bitcoins: $${bitcoins}`;
+    // Función para formatear números grandes
+    function formatearNumero(num) {
+        num = parseInt(num);
+        if (num >= 1000000000) {
+            const valor = num / 1000000000;
+            return valor % 1 === 0 ? valor + 'B' : valor.toFixed(1) + 'B';
+        }
+        if (num >= 1000000) {
+            const valor = num / 1000000;
+            return valor % 1 === 0 ? valor + 'M' : valor.toFixed(1) + 'M';
+        }
+        if (num >= 1000) {
+            const valor = num / 1000;
+            return valor % 1 === 0 ? valor + 'K' : valor.toFixed(1) + 'K';
+        }
+        return num.toString();
     }
 
-    clicker.addEventListener('click', () => {
-        if (bitcoins < maxMonedas) {
-            bitcoins += incremento;
-            if (bitcoins > maxMonedas) bitcoins = maxMonedas;
-            actualizarBitcoin();
-        }
-    });
+    // Configuración inicial de estilos
+    if (clicker) {
+        clicker.style.zIndex = '10';
+        clicker.style.pointerEvents = 'auto';
+        clicker.style.transition = 'transform 0.1s ease-out';
+    }
+    if (pc) pc.style.pointerEvents = 'none';
+    if (teclado) teclado.style.pointerEvents = 'none';
 
-    // Autoclicker loop
+    // Función para actualizar la visualización de bitcoins
+    function actualizarBitcoin() {
+        const bitcoinFormateado = formatearNumero(bitcoin);
+        bitcoinElem.textContent = `Bitcoins: $${bitcoinFormateado}`;
+        if (bitcoinTienda) {
+            bitcoinTienda.textContent = `Bitcoins: $${bitcoinFormateado}`;
+        }
+    }
+
+    // Función para actualizar la visualización de clicks por clic
+    function actualizarClicks() {
+        clicksElem.textContent = `Poder de Clicks: ${incremento}`;
+    }
+
+    // Función para actualizar la visualización de clicks automáticos
+    function actualizarAutoClicks() {
+        autoClicksElem.textContent = `Clicks automáticos: ${autoclicks}`;
+    }
+
+    // Función para crear texto flotante
+    function crearTextoFlotante(x, y, texto) {
+        const textoFlotante = document.createElement('div');
+        textoFlotante.className = 'texto-flotante';
+        textoFlotante.textContent = texto;
+        textoFlotante.style.left = `${x}px`;
+        textoFlotante.style.top = `${y}px`;
+        
+        // Pequeña variación aleatoria
+        const offsetX = (Math.random() - 0.5) * 30;
+        const offsetY = (Math.random() - 0.5) * 30;
+        textoFlotante.style.setProperty('--tx', `${offsetX}px`);
+        textoFlotante.style.setProperty('--ty', `${-100 + offsetY}px`);
+        
+        document.body.appendChild(textoFlotante);
+        
+        // Eliminar después de la animación
+        setTimeout(() => {
+            textoFlotante.remove();
+        }, 1000);
+    }
+
+    // Función para actualizar niveles en la tienda
+    function actualizarNivelesTienda() {
+        document.querySelectorAll('.item').forEach(item => {
+            const mejora = item.getAttribute('data-mejora');
+            const nivelElem = item.querySelector('.item-nivel');
+            const btnComprar = item.querySelector('.comprar-btn');
+            const costo = parseInt(item.getAttribute('data-costo'));
+            const costoFormateado = formatearNumero(costo);
+            
+            if (nivelElem) {
+                let nivel;
+                switch(mejora) {
+                    case 'procesador': nivel = Clevel; break;
+                    case 'ram': nivel = Rlevel; break;
+                    case 'placa-video': nivel = Glevel; break;
+                    case 'disco': nivel = Dlevel; break;
+                    case 'monitor': nivel = Molevel; break;
+                    case 'gabinete': nivel = Gablevel; break;
+                    case 'motherboard': nivel = Mlevel; break;
+                    case 'explorador': nivel = Elevel; break;
+                    default: nivel = 0;
+                }
+                nivelElem.textContent = `Nivel: ${nivel}`;
+            }
+            
+            if (btnComprar) {
+                btnComprar.textContent = `Comprar ($${costoFormateado})`;
+            }
+        });
+    }
+
+    // Evento de clic básico con efecto de texto flotante
+    if (clicker) {
+        clicker.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Posición del clicker
+            const rect = clicker.getBoundingClientRect();
+            const centerX = rect.left + rect.width/2;
+            const centerY = rect.top + rect.height/2;
+            
+            // Crear texto flotante
+            crearTextoFlotante(centerX, centerY, `+${incremento}`);
+            
+            // Efecto de escala en el Bitcoin
+            clicker.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                clicker.style.transform = 'scale(1)';
+            }, 100);
+            
+            // Añadir bitcoins
+            bitcoin += incremento;
+            if (bitcoin > maxMonedas) bitcoin = maxMonedas;
+            
+            // Actualizar la interfaz
+            actualizarBitcoin();
+        });
+    }
+
+    // Sistema de clicks automáticos
     setInterval(() => {
-        if (autoclicks > 0 && bitcoins < maxMonedas) {
-            bitcoins += autoclicks;
-            if (bitcoins > maxMonedas) bitcoins = maxMonedas;
+        if (autoclicks > 0) {
+            bitcoin += autoclicks;
+            if (bitcoin > maxMonedas) bitcoin = maxMonedas;
             actualizarBitcoin();
         }
     }, 1000);
 
-    // --- TIENDA ZAMAZON ---
+    // --- TIENDA ---
     const tiendaBtn = document.getElementById('tienda');
     const ventanaTienda = document.getElementById('ventana-tienda');
+    const cerrarTiendaBtn = document.querySelector('.cerrar-tienda');
 
-    tiendaBtn.addEventListener('click', () => {
-        ventanaTienda.style.display = (ventanaTienda.style.display === 'none' || ventanaTienda.style.display === '') ? 'block' : 'none';
-    });
+    if (tiendaBtn && ventanaTienda) {
+        tiendaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ventanaTienda.style.display = ventanaTienda.style.display === 'none' ? 'flex' : 'none';
+            actualizarNivelesTienda();
+        });
+    }
 
-    // Panel de producto
-    const items = document.querySelectorAll('.item');
-    const panel = document.getElementById('panel-producto');
-    const panelImg = document.getElementById('panel-img');
-    const panelTitulo = document.getElementById('panel-titulo');
-    const panelDesc = document.getElementById('panel-desc');
-    const panelPrecio = document.getElementById('panel-precio');
-    const panelBtn = document.getElementById('panel-comprar-btn');
-    const cerrarPanel = document.querySelector('.cerrar-panel');
+    if (cerrarTiendaBtn && ventanaTienda) {
+        cerrarTiendaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ventanaTienda.style.display = 'none';
+        });
+    }
 
-    let productoActual = null;
+    // --- EXPLORADOR DE ARCHIVOS ---
+    if (archivosBtn && ventanaExplorador) {
+        archivosBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ventanaExplorador.style.display = 'flex';
+        });
+    }
 
-    items.forEach(item => {
-        item.addEventListener('click', () => {
-            productoActual = item;
-            panelImg.src = item.getAttribute('data-img');
-            panelTitulo.textContent = item.getAttribute('data-titulo');
-            panelDesc.textContent = item.getAttribute('data-desc');
-            panelPrecio.textContent = `$${item.getAttribute('data-costo')}`;
-            panelBtn.textContent = (item.getAttribute('data-mejora') === 'placa-video') ? 'Comprar' : 'Mejorar';
-            panel.classList.remove('oculto');
-            panelBtn.dataset.mejoratipo = item.getAttribute('data-mejora');
-            panelBtn.dataset.costo = item.getAttribute('data-costo');
+    if (cerrarExploradorBtn && ventanaExplorador) {
+        cerrarExploradorBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ventanaExplorador.style.display = 'none';
+        });
+    }
+
+    // Botones de compra directa
+    document.querySelectorAll('.comprar-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const item = this.closest('.item');
+            const mejora = item.getAttribute('data-mejora');
+            let costo = parseInt(item.getAttribute('data-costo'));
+            let nuevoCosto;
+
+            if (bitcoin >= costo) {
+                switch(mejora) {
+                    case "procesador":
+                        if (!gabcompradoC && gabinetepts < 1) {
+                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            return;
+                        }
+                        Clevel += 1;
+                        incremento += 1;
+                        actualizarClicks();
+                        if (!gabcompradoC) gabinetepts -= 1;
+                        break;
+                        
+                    case "ram":
+                        if (!gabcompradoR && gabinetepts < 1) {
+                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            return;
+                        }
+                        Rlevel += 1;
+                        autoclickerIncrement += 1;
+                        if (!gabcompradoR) gabinetepts -= 1;
+                        break;
+                        
+                    case "placa-video":
+                        if (!gabcompradoG && gabinetepts < 1) {
+                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            return;
+                        }
+                        Glevel += 1;
+                        autoclicks += autoclickerIncrement;
+                        actualizarAutoClicks();
+                        if (!gabcompradoG) gabinetepts -= 1;
+                        break;
+                        
+                    case "disco":
+                        Dlevel += 1;
+                        maxMonedas = maxMonedas * 2;
+                        nuevoCosto = maxMonedas;
+                        break;
+                        
+                    case "monitor":
+                        Molevel += 1;
+                        clicker.style.width = (parseInt(clicker.style.width) || 60) + 10 + 'px';
+                        clicker.style.height = (parseInt(clicker.style.height) || 60) + 10 + 'px';
+                        break;
+                        
+                    case "gabinete":
+                        if (gabinetepts >= 5) {
+                            alert('🚨 Tu gabinete ya está al máximo de capacidad 🚨');
+                            return;
+                        }
+                        Gablevel += 1;
+                        gabinetepts += 1;
+                        break;
+                        
+                    case "motherboard":
+                        if (!gabcompradoM && gabinetepts < 1) {
+                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            return;
+                        }
+                        Mlevel += 1;
+                        if (!gabcompradoM) gabinetepts -= 1;
+                        break;
+                        
+                    case "explorador":
+                        Elevel += 1;
+                        document.querySelector('.container').style.backgroundImage = "url('fondo_personalizado.png')";
+                        break;
+                }
+
+                // Actualizar costos
+                if (mejora !== "disco") {
+                    nuevoCosto = Math.floor(costo * 1.5);
+                    item.setAttribute('data-costo', nuevoCosto);
+                } else {
+                    nuevoCosto = maxMonedas;
+                    item.setAttribute('data-costo', nuevoCosto);
+                }
+
+                // Actualizar interfaz
+                bitcoin -= costo;
+                actualizarBitcoin();
+                actualizarNivelesTienda();
+                
+                // Efecto visual al comprar
+                item.style.transform = 'scale(1.05)';
+                setTimeout(() => item.style.transform = 'scale(1)', 200);
+                
+            } else {
+                alert('🚨 No tienes suficientes bitcoins 🚨');
+            }
         });
     });
 
-    cerrarPanel.addEventListener('click', () => {
-        panel.classList.add('oculto');
-    });
-
-    panelBtn.addEventListener('click', () => {
-        if (!productoActual) return;
-        const mejora = panelBtn.dataset.mejoratipo;
-        let costo = parseInt(panelBtn.dataset.costo);
-        if (bitcoins >= costo) {
-            bitcoins -= costo;
-            actualizarBitcoin();
-            switch (mejora) {
-                case "procesador":
-                    incremento += 1;
-                    break;
-                case "ram":
-                    autoclickerIncrement += 1;
-                    break;
-                case "disco":
-                    maxMonedas += 1000;
-                    break;
-                case "monitor":
-                    areaClick += 1;
-                    clicker.style.width = `${30 + areaClick * 5}%`;
-                    break;
-                case "gabinete":
-                    componentesExtra += 1;
-                    break;
-                case "motherboard":
-                    compatibilidad += 1;
-                    break;
-                case "explorador":
-                    fondoPersonalizado = true;
-                    document.body.style.background = "#222 url('fondo1.jpg') center/cover no-repeat";
-                    break;
-                case "placa-video":
-                    autoclicks += autoclickerIncrement;
-                    break;
-            }
-            // Duplica el costo para la próxima vez
-            const nuevoCosto = costo * 2;
-            productoActual.setAttribute('data-costo', nuevoCosto);
-            productoActual.querySelector('.item-desc').textContent = productoActual.getAttribute('data-desc');
-            panelPrecio.textContent = `$${nuevoCosto}`;
-            panelBtn.dataset.costo = nuevoCosto;
-            panel.classList.add('oculto');
-        } else {
-            alert('No tienes suficientes puntos');
-        }
-    });
-
-    // Inicializa el contador al cargar
+    // Inicialización
     actualizarBitcoin();
+    actualizarClicks();
+    actualizarAutoClicks();
 });

@@ -1,4 +1,4 @@
-/* Esto es el fondo  */
+/* Esto es el fondo */
 .container {
     background: url('fondo1.png') center 74%/cover no-repeat;
     position: fixed;
@@ -13,24 +13,29 @@
     margin-top: 250px;
 }
 
-/* Esto es la imagen de la computadora */
+/* Imagen de la computadora */
 #pc {
     width: 100%;
     height: 100%;
     display: block;
     margin: -270px auto;
+    pointer-events: none;
 }
 
-/* Esto es el bitcoint que clickeas*/
+/* Bitcoin clickable */
 #clicker {
     position: absolute;
     width: 60px;    
     height: 60px;
     left: 230px;    
     top: 100px; 
+    cursor: pointer;
+    z-index: 10;
+    pointer-events: auto;
+    transition: transform 0.1s ease-out;
 }
 
-/* Esto es el teclado */
+/* Teclado */
 #teclado {
     position: absolute;
     width: 700px;
@@ -38,16 +43,32 @@
     top: -35px;
 }
 
-/* Esto es el texto de la cantidad de bitcoins */
+/* Texto de estadísticas */
 #bitcoin {
     position: absolute;
-    left: 280px;
-    top: 215px;
+    left: 250px;
+    top: 180px;
     font-size: 18px;
     color: rgb(189, 188, 188);
 }
 
-/* Esto es el boton de la tienda */
+#clicks {
+    position: absolute;
+    left: 250px;
+    top: 200px;
+    font-size: 18px;
+    color: rgb(189, 188, 188);
+}
+
+#auto-clicks {
+    position: absolute;
+    left: 250px;
+    top: 220px;
+    font-size: 18px;
+    color: rgb(189, 188, 188);
+}
+
+/* Botón de tienda */
 #tienda {
     position: absolute;
     width: 40px;
@@ -56,13 +77,22 @@
     top: 85px;
     cursor: pointer;
     border-radius: 30%;  
-
 }
 
-/* --- INICIO TIENDA ZAMAZON --- */
+/* Botón de archivos */
+#archivos {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 390px;
+    top: 135px;
+    cursor: pointer;
+    border-radius: 30%;  
+}
 
+/* --- TIENDA ZAMAZON --- */
 .ventana-navegador, #ventana-tienda {
-    position: fixed; /* Cambia de absolute a fixed */
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -72,21 +102,14 @@
     min-width: 0;
     max-width: none;
     background: #fff;
-    border-radius: 0; /* Sin bordes redondeados para ocupar todo */
+    border-radius: 0;
     box-shadow: 0 8px 32px 0 rgba(60,60,60,0.18), 0 1.5px 0 #e3e3e3 inset;
     border: none;
     display: none;
     flex-direction: column;
     z-index: 100;
-    overflow: hidden;
-}
-.ventana-navegador.abierta, #ventana-tienda.abierta {
-    display: flex;
-    animation: fadeInTienda 0.3s;
-}
-@keyframes fadeInTienda {
-    from { opacity: 0; transform: scale(0.97); }
-    to { opacity: 1; transform: scale(1); }
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .barra-navegador, .barra-zamazon {
@@ -113,9 +136,9 @@
     border: none;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.067);
 }
-.navegador-cerrar { background: #ff5f56; }
-.navegador-min   { background: #ffbd2e; }
-.navegador-max   { background: #27c93f; }
+
+.navegador-min { background: #ffbd2e; }
+.navegador-max { background: #27c93f; margin-left: -15px; }
 
 .barra-titulo {
     font-weight: 500;
@@ -126,108 +149,6 @@
     flex: 1;
     text-align: left;
     opacity: 0.85;
-}
-
-#tienda, .tienda-contenido {
-    flex: 1 1 auto;
-    border-radius: 0 0 18px 18px;
-    box-shadow: none;
-    min-width: 0;
-    max-width: 100%;
-    height: auto;
-    color: #222;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
-    overflow-y: auto;
-    border: none;
-}
-
-.item {
-    background: #fff;
-    border-radius: 12px;
-    padding: 18px 16px 16px 16px;
-    margin: 0 0 18px 0;
-    width: 100%;
-    box-shadow: 0 4px 16px rgba(34,34,34,0.10);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 22px;
-    cursor: pointer;
-    border: 2px solid #ececec;
-    transition: box-shadow 0.2s, border 0.2s, background 0.2s, transform 0.15s;
-    position: relative;
-}
-.item:hover {
-    background: #f7f7fa;
-    border: 2px solid #ffd700;
-    box-shadow: 0 8px 24px #ffd70033;
-    transform: translateY(-2px) scale(1.03);
-}
-
-.item img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 0;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ffd70022;
-    background: #fff;
-    border: 1.5px solid #e3e3e3;
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
-.item-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.item-titulo {
-    font-size: 1.22rem;
-    font-weight: bold;
-    color: #ff0096;
-    margin: 0 0 2px 0;
-}
-
-.item-desc {
-    color: #232f3e;
-    font-size: 1.01rem;
-    margin: 0 0 4px 0;
-}
-
-.item-precio {
-    color: #b12704;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-.buy-button, .buy-autoclicker, #panel-comprar-btn {
-    margin-top: 0;
-    padding: 10px 22px;
-    border-radius: 7px;
-    border: none;
-    background: linear-gradient(90deg, #ffd700 60%, #ff9900 100%);
-    color: #232f3e;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #ffd70055;
-    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-    font-size: 1.08rem;
-    border: 1.5px solid #ff9900;
-    letter-spacing: 0.5px;
-}
-.buy-button:disabled, .buy-autoclicker:disabled, #panel-comprar-btn:disabled {
-    background: #eee;
-    box-shadow: none;
-    cursor: not-allowed;
-    color: #aaa;
-    border: 1.5px solid #ccc;
 }
 
 .barra-zamazon {
@@ -259,85 +180,463 @@
     box-shadow: 0 1px 4px #0001;
 }
 
-.nav-links {
-    display: flex;
-    gap: 18px;
-}
-
-.nav-links span {
-    color: #fff;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.2s;
-    font-size: 1rem;
-}
-.nav-links span:hover {
-    color: #ffd700;
-}
-
-/* Panel de producto (emergente) */
-.panel-producto {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.35);
+.cerrar-tienda {
+    width: 15px;
+    height: 15px;
+    background: #f02525;
+    font-size: 1.1rem;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999;
-    transition: opacity 0.2s;
+    cursor: pointer;
+    border: none;
+    margin-right: -10px;
+    margin-top: 2px;
+    box-shadow: 0 1px 2px #0001;
+    transition: 0.2s, color 0.2s, transform 0.1s;
+    position: static;
 }
-.panel-producto.oculto {
-    display: none;
+
+.cerrar-tienda:hover {
+    background: #ff2e2e;
+    color: #fff;
+    transform: scale(1.12);
 }
-.panel-contenido {
+
+#tienda, .tienda-contenido {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    color: #222;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    overflow-y: auto;
+    max-height: 80vh;
+    overflow-x: hidden;
+}
+
+.item {
     background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 32px 28px 24px 28px;
-    min-width: 320px;
-    max-width: 350px;
+    border-radius: 12px;
+    padding: 18px 16px 16px 16px;
+    margin: 0 0 18px 0;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(34,34,34,0.10);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 22px;
+    cursor: pointer;
+    border: 2px solid #ececec;
+    transition: box-shadow 0.2s, border 0.2s, background 0.2s, transform 0.15s;
+    position: relative;
+}
+
+.item:hover {
+    background: #f7f7fa;
+    border: 2px solid #ffd700;
+    box-shadow: 0 8px 24px #ffd70033;
+    transform: translateY(-2px) scale(1.03);
+}
+
+.item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffd70022;
+    background: #fff;
+    border: 1.5px solid #e3e3e3;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item-titulo {
+    font-size: 1.22rem;
+    font-weight: bold;
+    color: #000000;
+    margin: 0 0 2px 0;
+}
+
+.item-desc {
+    color: #232f3e;
+    font-size: 1.01rem;
+    margin: 0 0 4px 0;
+}
+
+/* Bitcoin en la tienda */
+.bitcoin-tienda {
+    color: #ffd700;
+    font-weight: bold;
+    margin-left: auto;
+    padding: 5px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+/* Sección de compra */
+.item-comprar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.item-nivel {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.comprar-btn {
+    padding: 5px 10px;
+    background: linear-gradient(90deg, #ffd700 60%, #ff9900 100%);
+    border: none;
+    border-radius: 4px;
+    color: #232f3e;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+    font-size: 0.8rem;
+    margin-right: 30px;
+}
+
+.comprar-btn:hover {
+    transform: scale(1.05);
+}
+
+.comprar-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* EFECTOS DE CLIC */
+.click-effect {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,215,0,0) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    transform: scale(0);
+    transition: transform 0.3s ease-out, opacity 0.3s;
+}
+
+.click-effect.active {
+    opacity: 0.8;
+    transform: scale(3);
+}
+
+/* Animación de partículas */
+@keyframes particula {
+    0% { 
+        transform: translate(0, 0); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translate(var(--tx), var(--ty)); 
+        opacity: 0; 
+    }
+}
+
+.particula {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: gold;
+    border-radius: 50%;
+    animation: particula 0.6s ease-out forwards;
+    z-index: 6;
+}
+
+/* Efecto al comprar items */
+.item-comprado {
+    animation: comprado 0.5s ease;
+}
+
+@keyframes comprado {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Efecto de texto flotante */
+.float-text {
+    position: absolute;
+    color: gold;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px black;
+    pointer-events: none;
+    z-index: 20;
+    animation: float-up 1s ease-out forwards;
+    user-select: none;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}
+
+/* --- EXPLORADOR DE ARCHIVOS --- */
+.ventana-explorador {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 600px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.barra-explorador {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    background-color: #f5f5f5;
+    padding: 0 10px;
+    border-bottom: 1px solid #e0e0e0;
+    user-select: none;
+}
+
+.botones-ventana {
+    display: flex;
+    gap: 8px;
+    margin-right: 10px;
+    align-items: center;
+    height: 100%;
+    padding: 0 5px;
+}
+
+.boton-ventana {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.cerrar-explorador {
+    background-color: #ff5f56;
+    width: 15px;
+    height: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    margin-right: 8px;
+    box-shadow: 0 1px 2px #0001;
+    transition: 0.2s, color 0.2s, transform 0.1s;
+    color: transparent;
+    position: relative;
+}
+
+.cerrar-explorador::after {
+    content: "×";
+    color: white;
+    position: absolute;
+    font-size: 14px;
+    line-height: 15px;
+}
+
+.cerrar-explorador:hover {
+    background: #ff2e2e;
+    color: #fff;
+    transform: scale(1.12);
+}
+
+.minimizar-explorador {
+    background-color: #ffbd2e;
+}
+
+.maximizar-explorador {
+    background-color: #27c93f;
+}
+
+.titulo-explorador {
+    flex: 1;
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+}
+
+.barra-busqueda {
+    margin-left: auto;
+}
+
+.buscador-archivos {
+    width: 200px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 0 8px;
+    font-size: 12px;
+}
+
+.barra-herramientas {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    background-color: #f5f5f5;
+    padding: 0 10px;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 8px;
+}
+
+.btn-herramienta {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.btn-herramienta:hover {
+    background-color: #e5e5e5;
+}
+
+.ruta-actual {
+    flex: 1;
+    font-size: 12px;
+    color: #666;
+    padding: 0 10px;
+}
+
+.contenido-explorador {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 10px 0;
+    border-right: 1px solid #e0e0e0;
+    overflow-y: auto;
+}
+
+.item-sidebar {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    cursor: pointer;
+    gap: 8px;
+}
+
+.item-sidebar img {
+    width: 16px;
+    height: 16px;
+}
+
+.item-sidebar span {
+    font-size: 12px;
+    color: #333;
+}
+
+.item-sidebar:hover {
+    background-color: #e5e5e5;
+}
+
+.item-sidebar.activo {
+    background-color: #d5d5d5;
+}
+
+.area-archivos {
+    flex: 1;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-auto-rows: 120px;
+    gap: 15px;
+    overflow-y: auto;
+    align-content: start;
+}
+
+.archivo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-}
-.panel-contenido img {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    margin-bottom: 18px;
-}
-.panel-contenido h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.3rem;
-    color: #232f3e;
-}
-.panel-contenido p {
-    color: #444;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    text-align: center;
-}
-#panel-precio {
-    color: #b12704;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 18px;
-    display: block;
-}
-.cerrar-panel {
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    font-size: 2rem;
-    color: #888;
+    justify-content: center;
     cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s, transform 0.1s;
-}
-.cerrar-panel:hover {
-    color: #ff0096;
-    transform: scale(1.15);
+    border-radius: 4px;
+    padding: 10px;
 }
 
-/* --- FIN TIENDA ZAMAZON --- */
+.archivo:hover {
+    background-color: #e5e5e5;
+}
+
+.archivo img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 8px;
+}
+
+.archivo span {
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.barra-estado {
+    height: 24px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Prevenir selección de imágenes */
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+}

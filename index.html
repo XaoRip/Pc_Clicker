@@ -15,23 +15,25 @@
     <img id="clicker" src="clicker.png" alt="Bitcoin">
     <img id="teclado" src="teclado1.png" alt="Teclado">
     <p id="bitcoin">Bitcoins: $0</p>
+    <p id="clicks">Poder de Clicks: 1</p>
+    <p id="auto-clicks">Clicks automáticos: 0</p>
     <img src="tienda.png" alt="tienda" id="tienda">
+    <img src="explorador-archivos.png" alt="explorador-archivos" id="archivos">
+    <div id="click-effect" class="click-effect"></div> 
 
     <div id="ventana-tienda" style="display:none;">
         <!-- Barra superior de la tienda -->
-        <span class="boton navegador-min"></span>
-        <span class="boton navegador-max"></span>
-        <span class="barra-titulo">https://www.zamazon.com/-/es/</span>
+        <div class="barra-navegador">
+            <span class="boton cerrar-tienda" title="Cerrar tienda">&times;</span>
+            <span class="boton navegador-min"></span>
+            <span class="boton navegador-max"></span>
+            <span class="barra-titulo">https://www.zamazon.com/-/es/</span>
+        </div>
         <!-- Barra de búsqueda y navegación -->
         <div class="barra-zamazon">
             <img src="Zamazon_logo.png" alt="Zamazon" class="logo-zamazon">
             <input class="buscador-zamazon" type="text" placeholder="Buscar en Zamazon...">
-            <div class="nav-links">
-                <span>Ofertas</span>
-                <span>Componentes</span>
-                <span>Mi cuenta</span>
-                <span>Carrito</span>
-            </div>
+            <div id="bitcoin-tienda" class="bitcoin-tienda">Bitcoins: $0</div>
         </div>
         <!-- Contenido de la tienda -->
         <div class="tienda-contenido">
@@ -47,6 +49,10 @@
                 <div class="item-info">
                     <span class="item-titulo">Procesador</span>
                     <span class="item-desc">Maximiza la eficiencia de cada clic.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($50)</button>
+                    </div>
                 </div>
             </div>
             <div class="item"
@@ -60,6 +66,10 @@
                 <div class="item-info">
                     <span class="item-titulo">RAM</span>
                     <span class="item-desc">Aumenta la potencia de los clics automáticos.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($100)</button>
+                    </div>
                 </div>
             </div>
             <div class="item"
@@ -73,19 +83,27 @@
                 <div class="item-info">
                     <span class="item-titulo">Placa de Video</span>
                     <span class="item-desc">Permite clics automáticos.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($200)</button>
+                    </div>
                 </div>
             </div>
             <div class="item"
                 data-mejora="disco"
-                data-costo="150"
+                data-costo="350"
                 data-titulo="Disco Duro"
                 data-desc="Aumenta el máximo de monedas almacenables."
-                data-precio="150"
+                data-precio="350"
                 data-img="disco-duro.png">
                 <img src="disco-duro.png" alt="Disco Duro">
                 <div class="item-info">
                     <span class="item-titulo">Disco Duro</span>
                     <span class="item-desc">Aumenta el máximo de monedas almacenables.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($350)</button>
+                    </div>
                 </div>
             </div>
             <div class="item"
@@ -99,6 +117,10 @@
                 <div class="item-info">
                     <span class="item-titulo">Monitor</span>
                     <span class="item-desc">Aumenta el área de clic.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($120)</button>
+                    </div>
                 </div>
             </div>
             <div class="item"
@@ -112,6 +134,10 @@
                 <div class="item-info">
                     <span class="item-titulo">Gabinete</span>
                     <span class="item-desc">Permite más componentes en tu sistema.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($180)</button>
+                    </div>
                 </div>
             </div>
             <div class="item"
@@ -125,40 +151,91 @@
                 <div class="item-info">
                     <span class="item-titulo">Placa Madre</span>
                     <span class="item-desc">Mejora compatibilidad y estabilidad.</span>
-                </div>
-            </div>
-            <div class="item"
-                data-mejora="explorador"
-                data-costo="80"
-                data-titulo="Explorador de Archivos"
-                data-desc="Personaliza tu fondo de juego."
-                data-precio="80"
-                data-img="explorador.png">
-                <img src="explorador.png" alt="Explorador de Archivos">
-                <div class="item-info">
-                    <span class="item-titulo">Explorador de Archivos</span>
-                    <span class="item-desc">Personaliza tu fondo de juego.</span>
+                    <div class="item-comprar">
+                        <span class="item-nivel">Nivel: 0</span>
+                        <button class="comprar-btn">Comprar ($220)</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- Panel de producto (emergente) -->
-        <div id="panel-producto" class="panel-producto oculto">
-            <div class="panel-contenido">
-                <span class="cerrar-panel">&times;</span>
-                <img id="panel-img" src="" alt="">
-                <h3 id="panel-titulo"></h3>
-                <p id="panel-desc"></p>
-                <span id="panel-precio"></span>
-                <button id="panel-comprar-btn">Comprar / Mejorar</button>
+    </div>
+
+    <!-- Ventana del explorador de archivos estilo Windows 11 -->
+    <div id="ventana-explorador" class="ventana-explorador" style="display:none;">
+        <div class="barra-explorador">
+            <div class="botones-ventana">
+                <span class="boton-ventana cerrar-explorador"></span>
+                <span class="boton-ventana minimizar-explorador"></span>
+                <span class="boton-ventana maximizar-explorador"></span>
             </div>
+            <div class="titulo-explorador">Explorador de archivos</div>
+            <div class="barra-busqueda">
+                <input type="text" placeholder="Buscar..." class="buscador-archivos">
+            </div>
+        </div>
+        <div class="barra-herramientas">
+            <button class="btn-herramienta">←</button>
+            <button class="btn-herramienta">→</button>
+            <button class="btn-herramienta">↑</button>
+            <div class="ruta-actual">Admin > Background Engine</div>
+        </div>
+        <div class="contenido-explorador">
+            <div class="sidebar">
+                <div class="item-sidebar activo">
+                    <img src="icono-esta-pc.png" alt="Esta PC">
+                    <span>Escritorio</span>
+                </div>
+                <div class="item-sidebar">
+                    <img src="icono-documentos.png" alt="Documentos">
+                    <span>Documentos</span>
+                </div>
+                <div class="item-sidebar">
+                    <img src="icono-descargas.png" alt="Descargas">
+                    <span>Descargas</span>
+                </div>
+                <div class="item-sidebar">
+                    <img src="icono-imagenes.png" alt="Imágenes">
+                    <span>Imágenes</span>
+                </div>
+                <div class="item-sidebar">
+                    <img src="icono-musica.png" alt="Música">
+                    <span>Música</span>
+                </div>
+            </div>
+            <div class="area-archivos">
+                <div class="archivo">
+                    <img src="icono-carpeta.png" alt="Carpeta">
+                    <span>Documentos</span>
+                </div>
+                <div class="archivo">
+                    <img src="icono-carpeta.png" alt="Carpeta">
+                    <span>Descargas</span>
+                </div>
+                <div class="archivo">
+                    <img src="icono-carpeta.png" alt="Carpeta">
+                    <span>Imágenes</span>
+                </div>
+                <div class="archivo">
+                    <img src="icono-carpeta.png" alt="Carpeta">
+                    <span>Música</span>
+                </div>
+                <div class="archivo">
+                    <img src="icono-archivo.png" alt="Archivo">
+                    <span>documento.txt</span>
+                </div>
+                <div class="archivo">
+                    <img src="icono-archivo.png" alt="Archivo">
+                    <span>foto.jpg</span>
+                </div>
+            </div>
+        </div>
+        <div class="barra-estado">
+            <span>6 elementos</span>
         </div>
     </div>
 </div>
 
-
-
 </div>
-
 
 </body>
 </html>
