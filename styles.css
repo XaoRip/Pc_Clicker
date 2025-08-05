@@ -115,8 +115,8 @@ body, html {
     position: absolute;
     width: 120%;
     left: -10%;
-    bottom: -15%;
-    z-index: 3;
+    bottom: 15%;
+    z-index: 30;
     transition: all 0.3s ease;
 }
 
@@ -147,23 +147,27 @@ body, html {
 }
 
 .screen.monitor-lv5 #clicker {
-    left: 45%;
+    left: 30%;
     top: 15%;
+    scale: 2;
 }
 
 .screen.monitor-lv5 #tienda {
-    left: 81%;
-    top: 10%;
+    left: 76%;
+    top: 11%;
+    scale: 1.4;
 }
 
 .screen.monitor-lv5 #archivos {
-    left: 81%;
-    top: 17%;
+    left: 76%;
+    top: 21%;
+    scale: 1.4;
 }
 
 .screen.monitor-lv5 #config-btn {
-    left: 84%;
-    top: 24%;
+    left: 76%;
+    top: 31%;
+    scale: 1.4;
 }
 
 .screen.monitor-lv5 #bitcoin { top: 32%; left:15%; }

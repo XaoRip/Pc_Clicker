@@ -294,11 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         const monitorImg = document.getElementById('pc');
                         const screenDiv = document.querySelector('.screen');
                         if (Molevel >= 5) {
-                            monitorImg.src = `img/monitor-lv${Molevel}.png`;
-                            // Aplica clase al contenedor .screen
+                            monitorImg.src = "img/monitor-lv5.png"; // Solo una imagen para nivel 5+
                             screenDiv.classList.add('monitor-lv5');
                         } else {
-                            // Quita clase si baja de nivel
+                            monitorImg.src = "img/pc.png"; // Imagen base para nivel <5
                             screenDiv.classList.remove('monitor-lv5');
                         }
                         break;
