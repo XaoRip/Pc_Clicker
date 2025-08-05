@@ -1,0 +1,160 @@
+/* Estilos principales */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: url('img/Fondo base.png') center/cover no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.computadora {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 12%;
+}
+
+.screen {
+    position: relative;
+    width: 100%;
+    height: auto;
+    z-index: 2;
+}
+
+#pc {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+
+#clicker {
+    position: absolute;
+    cursor: pointer;
+    width: 10%;
+    max-width: 80px;
+    transition: transform 0.1s ease-out;
+    left: 33%;
+    top: 12%;
+    z-index: 10;
+}
+
+#teclado {
+    position: absolute;
+    pointer-events: none;
+    width: 48%;
+    bottom: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+/* Textos de estadísticas */
+#bitcoin, 
+#clicks, 
+#auto-clicks {
+    position: absolute;
+    color: rgb(189, 188, 188);
+    left: 33%;
+    font-size: clamp(12px, 2vw, 15px);
+    z-index: 5;
+    text-shadow: 1px 1px 2px black;
+}
+
+#bitcoin { top: 24.5%; }
+#clicks { top: 27%; }
+#auto-clicks { top: 29.5%; }
+
+/* Botones */
+#tienda, #archivos, #config-btn {
+    position: absolute;
+    cursor: pointer;
+    width: 6%;
+    max-width: 50px;
+    z-index: 5;
+    transition: transform 0.2s;
+    pointer-events: all;
+}
+
+#tienda {
+    left: 53.5%;
+    top: 12%;
+}
+
+#archivos {
+    left: 53.5%;
+    top: 20%;
+}
+
+#config-btn {
+    left: 53.5%;
+    top: 28%;
+}
+
+#tienda:hover, #archivos:hover, #config-btn:hover {
+    transform: scale(1.1);
+}
+
+/* Da el efectos de texto flotante */
+.texto-flotante {
+    position: absolute;
+    color: gold;
+    font-weight: bold;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px black;
+    pointer-events: none;
+    z-index: 20;
+    animation: float-up 1s ease-out forwards;
+    user-select: none;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}
+
+/* Da el efecto de click */
+.click-effect {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,215,0,0) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    transform: scale(0);
+    transition: transform 0.3s ease-out, opacity 0.3s;
+}
+
+.click-effect.active {
+    opacity: 0.8;
+    transform: scale(3);
+}
+
+/* Previene la selección de imágenes */
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+}

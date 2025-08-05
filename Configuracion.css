@@ -1,0 +1,39 @@
+/* Ventana de configuración */
+.ventana-config {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    max-width: 90%;
+    background: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 2000;
+    display: none;
+    border: 1px solid #ccc;
+}
+
+.barra-config {
+    background: linear-gradient(90deg, #232f3e, #37475a);
+    color: white;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulo-config {
+    font-weight: bold;
+}
+
+.boton-cerrar {
+    position: static;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.contenido-config {
+    padding: 20px;
+}

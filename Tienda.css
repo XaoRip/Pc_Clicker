@@ -1,0 +1,232 @@
+/* Ventana de tienda */
+#ventana-tienda {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    display: none;
+    flex-direction: column;
+    z-index: 5000;
+    overflow-y: auto;
+}
+
+.barra-navegador {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    background: linear-gradient(90deg, #f7f7f8 80%, #e3e3e3 100%);
+    border-bottom: 1px solid #e3e3e3;
+    padding: 0 16px;
+    position: relative;
+    user-select: none;
+    z-index: 2000;
+    box-shadow: 0 2px 8px #e3e3e355;
+    gap: 18px;
+}
+
+.boton {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    z-index: 2000;
+    margin-top: 2px;
+    border: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.067);
+}
+
+.navegador-min { background: #ffbd2e; }
+.navegador-max { background: #27c93f; margin-left: -15px; }
+
+.barra-titulo {
+    font-weight: 500;
+    color: #444;
+    margin-left: 14px;
+    font-size: 1.13rem;
+    letter-spacing: 0.2px;
+    flex: 1;
+    text-align: left;
+    opacity: 0.85;
+    z-index: 2000;
+}
+
+.barra-zamazon {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: linear-gradient(90deg, #232f3e 80%, #37475a 100%);
+    padding: 0 18px;
+    height: 48px;
+    z-index: 2000;
+    border-bottom: 2px solid #ffd700;
+}
+
+.logo-zamazon {
+    width: 100px;
+    height: 48px;
+    margin-right: 18px;
+}
+
+.buscador-zamazon {
+    flex: 1;
+    height: 30px;
+    border-radius: 6px;
+    border: none;
+    padding: 0 12px;
+    font-size: 1rem;
+    margin-right: 18px;
+    background: #fff;
+    color: #222;
+    z-index: 2000;
+    box-shadow: 0 1px 4px #0001;
+}
+
+.cerrar-tienda {
+    z-index: 3000;
+    width: 15px;
+    height: 15px;
+    background: #f02525;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    margin-right: -10px;
+    margin-top: 2px;
+    box-shadow: 0 1px 2px #0001;
+    transition: 0.2s, color 0.2s, transform 0.1s;
+    position: static;
+}
+
+.cerrar-tienda:hover {
+    z-index: 3000;
+    background: #ff2e2e;
+    color: #fff;
+    transform: scale(1.12);
+}
+
+.tienda-contenido {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    color: #222;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin: 20px;
+    overflow-y: auto;
+    max-height: 80vh;
+    overflow-x: hidden;
+}
+
+.item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 16px 16px 16px;
+    margin: 0 0 18px 0;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(34,34,34,0.10);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 22px;
+    cursor: pointer;
+    border: 2px solid #ececec;
+    transition: box-shadow 0.2s, border 0.2s, background 0.2s, transform 0.15s;
+    position: relative;
+}
+
+.item:hover {
+    background: #f7f7fa;
+    border: 2px solid #ffd700;
+    box-shadow: 0 8px 24px #ffd70033;
+    transform: translateY(-2px);
+}
+
+.item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffd70022;
+    background: #fff;
+    border: 1.5px solid #e3e3e3;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item-titulo {
+    font-size: 1.22rem;
+    font-weight: bold;
+    color: #000000;
+    margin: 0 0 2px 0;
+}
+
+.item-desc {
+    color: #232f3e;
+    font-size: 1.01rem;
+    margin: 0 0 4px 0;
+}
+
+.bitcoin-tienda {
+    color: #fffef9;
+    font-weight: bold;
+    margin-left: auto;
+    padding: 5px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.item-comprar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.item-nivel {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.comprar-btn {
+    padding: 5px 10px;
+    background: linear-gradient(90deg, #ffd700 60%, #ff9900 100%);
+    border: none;
+    border-radius: 4px;
+    color: #232f3e;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+    font-size: 0.8rem;
+    margin-right: 30px;
+}
+
+.comprar-btn:hover {
+    transform: scale(1.05);
+}
+
+.comprar-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}

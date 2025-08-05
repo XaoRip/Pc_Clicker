@@ -1,0 +1,73 @@
+/* --- Estilos para las mejoras de nivel --- */
+.gabinete-lv10 {
+    position: absolute;
+    width: 120%;
+    left: -10%;
+    bottom: 15%;
+    z-index: 30;
+    transition: all 0.3s ease;
+}
+
+.teclado-lv5 {
+    position: absolute;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+}
+
+.monitor-lv5 {
+    position: relative;
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+/* Ajustes para nivel 5+ */
+.screen.monitor-lv5 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv5 #clicker {
+    left: 30%;
+    top: 15%;
+    scale: 2;
+}
+
+.screen.monitor-lv5 #tienda {
+    left: 76%;
+    top: 11%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv5 #archivos {
+    left: 76%;
+    top: 21%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv5 #config-btn {
+    left: 76%;
+    top: 31%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv5 #bitcoin { top: 32%; left:15%; }
+.screen.monitor-lv5 #clicks { top: 35%; left:15%; }
+.screen.monitor-lv5 #auto-clicks { top: 38%; left:15%; }
+
+#clicker, #tienda, #archivos, #config-btn,
+#bitcoin, #clicks, #auto-clicks {
+    transition: all 0.3s ease;
+}
+
+#gabinete.gabinete-mejorado {
+    width: 100%;
+    max-width: 400px;
+    transition: width 0.3s;
+}
