@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Variables del juego
-    let bitcoin = 10000000;
+    let bitcoin = 0;
     let gabinetepts = 0;
     let incremento = 1;
     let autoclicks = 0;
     let autoclickerIncrement = 1;
-    let maxMonedas = 10000000;   
+    let maxMonedas = 500;   
     let gabcompradoM = false;
     let gabcompradoR = false;
     let gabcompradoC = false;
@@ -291,11 +291,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     case "monitor":
                         Molevel += 1;
-                        // Cambia solo la imagen del monitor
                         const monitorImg = document.getElementById('pc');
+                        const screenDiv = document.querySelector('.screen');
                         if (Molevel >= 5) {
-                            monitorImg.src = `img/monitor-lv${Molevel}.png`;
-                            monitorImg.classList.add('monitor-mejorado');
+                            monitorImg.src = "img/monitor-lv5.png"; // Solo una imagen para nivel 5+
+                            screenDiv.classList.add('monitor-lv5');
+                        } else {
+                            monitorImg.src = "img/pc.png"; // Imagen base para nivel <5
+                            screenDiv.classList.remove('monitor-lv5');
                         }
                         break;
                         
