@@ -81,7 +81,7 @@ body, html {
 #auto-clicks { top: 29.5%; }
 
 /* Botones */
-#tienda, #archivos, #config-btn {
+#tienda, #archivos, #config-btn, #caja-btn {
     position: absolute;
     cursor: pointer;
     width: 6%;
@@ -106,7 +106,19 @@ body, html {
     top: 28%;
 }
 
-#tienda:hover, #archivos:hover, #config-btn:hover {
+#caja-btn {
+    position: absolute;
+    cursor: pointer;
+    width: 6%;
+    max-width: 50px;
+    z-index: 5;
+    transition: transform 0.2s;
+    pointer-events: all;
+    left: 53.5%;
+    top: 36%;
+}
+
+#tienda:hover, #archivos:hover, #config-btn:hover, #caja-btn:hover {
     transform: scale(1.1);
 }
 

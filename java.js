@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const tiendaBtn = document.getElementById('tienda');
     const ventanaTienda = document.getElementById('ventana-tienda');
     const cerrarTiendaBtn = document.querySelector('.cerrar-tienda');
+    const cajaBtn = document.getElementById('caja-btn');
+    const ventanaCaja = document.getElementById('ventana-caja');
+    const cerrarCajaBtn = document.querySelector('.cerrar-caja');
 
     // Función para formatear números grandes
     function formatearNumero(num) {
@@ -200,6 +203,20 @@ document.addEventListener('DOMContentLoaded', () => {
         cerrarExploradorBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             ventanaExplorador.style.display = 'none';
+        });
+    }
+
+    // --- CAJA (Case Opening) ---
+    if (cajaBtn && ventanaCaja) {
+        cajaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ventanaCaja.style.display = 'flex';
+        });
+    }
+    if (cerrarCajaBtn && ventanaCaja) {
+        cerrarCajaBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ventanaCaja.style.display = 'none';
         });
     }
 

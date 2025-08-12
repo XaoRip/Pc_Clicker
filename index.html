@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PC Clicker</title>
+    <link rel="stylesheet" href="VisualesPrincipales.css">
+    <link rel="stylesheet" href="Niveles.css">
+    <link rel="stylesheet" href="ExploradorDeArchivos.css">
+    <link rel="stylesheet" href="Tienda.css">
+    <link rel="stylesheet" href="Configuracion.css">    
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Caja.css">
     <script src="java.js" defer></script>
+    <script src="Caja.js"></script>
 </head>
 <body>
 
@@ -22,6 +29,7 @@
             <img src="img/tienda.png" alt="tienda" id="tienda">
             <img src="img/explorador-archivos.png" alt="explorador-archivos" id="archivos">
             <img src="img/configuracion.png" alt="Configuración" id="config-btn" class="icono-config">
+            <img src="img/caja.png" alt="Cajas" id="caja-btn">
             <div id="click-effect" class="click-effect"></div> 
         </div>
 
@@ -223,18 +231,34 @@
         <div class="barra-estado">
             <span>3 elementos</span>
         </div>
-    </div>
-</div>
+    </div>    <!-- Botón de la caja en la pantalla principal -->
+</div>">
 
-<div id="ventana-config" class="ventana-config" style="display:none;">
-    <div class="barra-config">
-        <span class="boton-cerrar cerrar-config">&times;</span>
-        <span class="titulo-config">Configuración</span>
+    <!-- Ventana de Cajas -->
+    <div id="ventana-caja" class="ventana-caja" style="display:none;">
+        <div class="barra-caja">
+            <span class="titulo-caja">Case Safe: GO</span>
+            <button class="cerrar-caja">&times;</button>
+        </div>
+        <div id="ruleta">
+            <div id="ruleta-inner"></div>
+            <div id="selector"></div>
+        </div>
+        <button id="generarBtn">Abrir Caja</button>
+        <div id="mensaje"></div>
+        <div id="imagenes"></div>
     </div>
-    <div class="contenido-config">
-        <h3>Opciones</h3>
+
+    <!-- Ventana de Configuración -->
+    <div id="ventana-config" class="ventana-config" style="display:none;">
+        <div class="barra-config">
+            <span class="boton-cerrar cerrar-config">&times;</span>
+            <span class="titulo-config">Configuración</span>
+        </div>
+        <div class="contenido-config">
+            <h3>Opciones</h3>
+        </div>
     </div>
-</div>
 
 </div>
 </body>
