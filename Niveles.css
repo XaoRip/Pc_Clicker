@@ -39,6 +39,7 @@
     scale: 2;
 }
 
+
 .screen.monitor-lv5 #tienda {
     left: 76%;
     top: 11%;
@@ -54,6 +55,18 @@
 .screen.monitor-lv5 #config-btn {
     left: 76%;
     top: 31%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv5 #misiones-btn {
+    left: 76%;
+    top: 31%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv5 #caja-btn {
+    left: 66%;
+    top: 11%;
     scale: 1.4;
 }
 

@@ -6,12 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
         { src: 'img/epico.jpg', alt: 'Item Épico', rarity: 'epico', color: 'pink', prob: 15 },
         { src: 'img/legendario.png', alt: 'DARWIN EL DEVORADOR DE MUNDOS', rarity: 'legendario', color: 'gold', prob: 4.74 },
         { src: 'img/mitico.jpg', alt: 'Item Mítico', rarity: 'mitico', color: 'red', prob: 0.26 },
-        { src: 'img/secreto.png', alt: 'EL SECRETO', rarity: 'secreto', color: 'black', prob: 90 }
+        { src: 'img/secreto.png', alt: 'EL SECRETO', rarity: 'secreto', color: 'black', prob: 0.01 }
     ];
 
     let inventory = [];
     let isOpening = false;
-    let credits = 100000;
+
+    window.krystal = window.krystal || 0; // Asegura que no se reinicie si ya existe
+
+    function updateCreditosBox() {
+        const creditosText = document.getElementById('creditos-text');
+        if (creditosText) {
+            creditosText.textContent = window.krystal;
+        }
+    }
 
     function initRuleta(resultItem = null) {
         const ruletaInner = document.getElementById('ruleta-inner');
@@ -154,14 +162,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
+    function updateKrystalBox() {
+        actualizarKrystalUI();
+    }
+
     document.getElementById('generarBtn').addEventListener('click', () => {
         if (isOpening) return;
-        if (credits < 100) {
-            alert('¡No tienes suficientes créditos!');
+        const costo = 100;
+        if (window.krystal < costo) {
+            const faltan = costo - window.krystal;
+            mostrarAlerta(`¡Te faltan ${faltan} krystal para abrir la caja!`);
             return;
         }
-        credits -= 100;
-        document.getElementById('generarBtn').textContent = `Abrir Caja (${credits} créditos)`;
+        window.krystal -= costo;
+        updateKrystalBox();
         const resultItem = getRandomItem();
         spinRuleta(resultItem);
     });
@@ -169,7 +183,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar
     initRuleta();
     updateInventory();
+    updateKrystalBox();
 });
-    // Inicializar
-    initRuleta();
-    updateInventory();
+
+window.krystal = 1000; // Valor inicial en 0
+
+function actualizarKrystalUI() {
+    const caja = document.getElementById('krystal-caja');
+    const misiones = document.getElementById('krystal-misiones');
+    if (caja) caja.textContent = window.krystal;
+    if (misiones) misiones.textContent = window.krystal;
+}
+
+// Puedes poner esto al inicio de Caja.js o en un archivo común
+function mostrarAlerta(mensaje) {
+    const alerta = document.getElementById('alerta-juego');
+    if (!alerta) return;
+    alerta.textContent = mensaje;
+    alerta.classList.add('mostrar');
+    setTimeout(() => {
+        alerta.classList.remove('mostrar');
+    }, 2000);
+}

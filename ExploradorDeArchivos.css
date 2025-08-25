@@ -228,3 +228,22 @@
     font-size: 12px;
     color: #666;
 }
+
+.area-archivos .archivo.equipado {
+    border: 2px solid #4af;
+    box-shadow: 0 0 12px #4af9;
+    filter: brightness(1.15);
+}
+
+.area-archivos .archivo.comprado {
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 8px #ffd70099;
+    filter: brightness(1.1);
+}
+
+.area-archivos .archivo.comprado.equipado,
+.area-archivos .archivo.equipado.comprado {
+    border: 2px solid #4af !important;
+    box-shadow: 0 0 12px #4af9 !important;
+    filter: brightness(1.15);
+}

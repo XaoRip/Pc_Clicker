@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Variables del juego
-    let bitcoin = 0;
+    let bitcoin = 5000;
     let gabinetepts = 0;
     let incremento = 1;
     let autoclicks = 0;
     let autoclickerIncrement = 1;
-    let maxMonedas = 500;   
+    let maxMonedas = 5000;   
     let gabcompradoM = false;
     let gabcompradoR = false;
     let gabcompradoC = false;
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let Elevel = 0;
     let AutoBit = 4000/Glevel;
     let fondoActual = 'img/Fondo base.png';
+    let fondoEquipado = null; // Nuevo: guarda el fondo actualmente equipado
 
     // Elementos del DOM
     const clicker = document.getElementById('clicker');
@@ -73,6 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Función para actualizar la visualización de bitcoins
     function actualizarBitcoin() {
+        bitcoinElem.textContent = `Bitcoins: $${bitcoin}`;
+        if (bitcoin >= maxMonedas) {
+            bitcoinElem.style.color = '#ff3333';
+            bitcoinElem.style.fontWeight = 'bold';
+            bitcoinElem.style.textShadow = '0 0 8px #ff3333cc';
+        } else {
+            bitcoinElem.style.color = '';
+            bitcoinElem.style.fontWeight = '';
+            bitcoinElem.style.textShadow = '';
+        }
         const bitcoinFormateado = formatearNumero(bitcoin);
         bitcoinElem.textContent = `Bitcoins: $${bitcoinFormateado}`;
         if (bitcoinTienda) {
@@ -90,24 +101,28 @@ document.addEventListener('DOMContentLoaded', () => {
         autoClicksElem.textContent = `Clicks automáticos: ${autoclicks}`;
     }
 
-    // Función para crear texto flotante
+    // Función para crear texto flotante que aparece en la posición del mouse (ajustado por zoom) y se desvanece
     function crearTextoFlotante(x, y, texto) {
-        const textoFlotante = document.createElement('div');
-        textoFlotante.className = 'texto-flotante';
-        textoFlotante.textContent = texto;
-        textoFlotante.style.left = `${x}px`;
-        textoFlotante.style.top = `${y}px`;
-        
-        const offsetX = (Math.random() - 0.5) * 30;
-        const offsetY = (Math.random() - 0.5) * 30;
-        textoFlotante.style.setProperty('--tx', `${offsetX}px`);
-        textoFlotante.style.setProperty('--ty', `${-100 + offsetY}px`);
-        
-        document.body.appendChild(textoFlotante);
-        
+        // Ajustar por zoom al 80%
+        const zoom = 0.8;
+        const realX = x / zoom;
+        const realY = y / zoom;
+        const efecto = document.createElement('div');
+        efecto.className = 'click-effect';
+        efecto.textContent = texto;
+        efecto.style.position = 'fixed';
+        efecto.style.left = `${realX}px`;
+        efecto.style.top = `${realY}px`;
+        efecto.style.pointerEvents = 'none';
+        efecto.style.zIndex = 9999;
+        document.body.appendChild(efecto);
         setTimeout(() => {
-            textoFlotante.remove();
-        }, 1000);
+            efecto.style.opacity = '0';
+            efecto.style.transform = 'translateY(-40px) scale(1.2)';
+        }, 10);
+        setTimeout(() => {
+            efecto.remove();
+        }, 700);
     }
 
     // Función para actualizar niveles en la tienda
@@ -143,25 +158,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Evento de clic básico con efecto de texto flotante
     if (clicker) {
-        clicker.addEventListener('mousedown', (e) => {
+        clicker.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
-            const rect = clicker.getBoundingClientRect();
-            const centerX = rect.left + rect.width/2;
-            const centerY = rect.top + rect.height/2;
-            
-            crearTextoFlotante(centerX, centerY, `+${incremento}`);
-            
-            clicker.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                clicker.style.transform = 'scale(1)';
-            }, 100);
-            
+            crearTextoFlotante(e.clientX, e.clientY, `+${incremento}`);
+
             bitcoin += incremento;
             if (bitcoin > maxMonedas) bitcoin = maxMonedas;
-            
             actualizarBitcoin();
+            // MISIÓN: click manual y bitcoins ganados SOLO si no está en el máximo
+            if (bitcoin < maxMonedas) {
+                if (window.misionesClickManual) window.misionesClickManual();
+                if (window.misionesBitcoin) window.misionesBitcoin(incremento);
+            }
         });
     }
 
@@ -170,8 +179,17 @@ document.addEventListener('DOMContentLoaded', () => {
             bitcoin = maxMonedas;
         }
         if (gabcompradoG == true) {
-            bitcoin += autoclicks;
-            actualizarBitcoin();
+            // Solo sumar autoclicks y misiones si no está en el máximo
+            if (bitcoin < maxMonedas) {
+                bitcoin += autoclicks;
+                if (bitcoin > maxMonedas) bitcoin = maxMonedas;
+                actualizarBitcoin();
+                // MISIÓN: autoclicks y bitcoins ganados
+                if (window.misionesAutoClick) window.misionesAutoClick(autoclicks);
+                if (window.misionesBitcoin) window.misionesBitcoin(autoclicks);
+            } else {
+                actualizarBitcoin();
+            }
         }
     }, AutoBit);
 
@@ -233,32 +251,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 switch(mejora) {
                     case "procesador":
                         if (!gabcompradoC && gabinetepts < 1) {
-                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            mostrarAlertaJuego('Tu gabinete no tiene capacidad para este producto');
                             return;
                         }
                         if (Clevel >= Mlevel) {
-                            alert('🚨 El nivel del procesador no puede ser mayor que el de la motherboard 🚨');
+                            mostrarAlertaJuego('El nivel del procesador no puede ser mayor que el de la motherboard');
                             return;
                         }
                         if (gabcompradoC == true){
                         Clevel += 1;
                         incremento += 1;
                         actualizarClicks();
-                        }
-
-                        else{
+                        } else {
                             gabinetepts -= 1;
                             gabcompradoC=true;   
                             Clevel += 1;
                             incremento += 1;
                             actualizarClicks();
-                            }
-                        
+                        }
                     break;
                         
                     case "ram":
                         if (!gabcompradoR && gabinetepts < 1) {
-                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            mostrarAlertaJuego('Tu gabinete no tiene capacidad para este producto');
                             return;
                         }
                         if (gabcompradoR == true){
@@ -266,38 +281,33 @@ document.addEventListener('DOMContentLoaded', () => {
                             autoclickerIncrement += 1;
                             autoclicks += autoclickerIncrement;
                             actualizarAutoClicks();
+                        } else {
+                            gabinetepts -= 1;
+                            gabcompradoR=true;   
+                            Rlevel += 1;
+                            autoclickerIncrement += 1;
+                            autoclicks += autoclickerIncrement;
+                            actualizarAutoClicks();
                         }
-
-                            else{
-                                gabinetepts -= 1;
-                                gabcompradoR=true;   
-                                Rlevel += 1;
-                                autoclickerIncrement += 1;
-                                autoclicks += autoclickerIncrement;
-                                actualizarAutoClicks();
-                            }
-
                         break;
                         
                     case "placa-video":
                         if (!gabcompradoG && gabinetepts < 1) {
-                            alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
+                            mostrarAlertaJuego('Tu gabinete no tiene capacidad para este producto');
                             return;
                         }
                             if (Glevel >= Mlevel) {
-                            alert('🚨 Esta placa de video no es compatible con la motherboard 🚨');
+                            mostrarAlertaJuego('Esta placa de video no es compatible con la motherboard');
                             return;
                         }
                         if (gabcompradoG == true){
                             Glevel += 1;
+                        } else {
+                            gabinetepts -= 1;
+                            gabcompradoG=true;   
+                            Glevel += 1;
+                            AutoBit = 4000;
                         }
-
-                            else{
-                                gabinetepts -= 1;
-                                gabcompradoG=true;   
-                                Glevel += 1;
-                                AutoBit = 4000
-                            }
                         break;
                         
                     case "disco":
@@ -311,17 +321,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         const monitorImg = document.getElementById('pc');
                         const screenDiv = document.querySelector('.screen');
                         if (Molevel >= 5) {
-                            monitorImg.src = "img/monitor-lv5.png"; // Solo una imagen para nivel 5+
+                            monitorImg.src = "img/monitor-lv5.png";
                             screenDiv.classList.add('monitor-lv5');
                         } else {
-                            monitorImg.src = "img/pc.png"; // Imagen base para nivel <5
+                            monitorImg.src = "img/pc.png";
                             screenDiv.classList.remove('monitor-lv5');
                         }
                         break;
                         
                    case "gabinete":
                         if (gabinetepts >= 10) {
-                            alert('🚨 Tu gabinete ya está al máximo de capacidad 🚨');
+                            mostrarAlertaJuego('¡Has alcanzado el nivel máximo de gabinete!');
                             return;
                         }
                         Gablevel += 1;
@@ -344,8 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                     case "motherboard":
                         if (!gabcompradoM && gabinetepts < 1) {
-                        alert('🚨 Tu gabinete no tiene capacidad para este producto 🚨');
-                        return;
+                            mostrarAlertaJuego('Tu gabinete no tiene capacidad para este producto');
+                            return;
                         }
     
                         if (gabcompradoM) {
@@ -376,32 +386,79 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 item.style.transform = 'scale(1.05)';
                 setTimeout(() => item.style.transform = 'scale(1)', 200);
+
+                // MISIÓN: compra
+                if (window.misionesCompra) window.misionesCompra();
+
+                // Si la compra fue de monitor, desbloquea el botón de misiones
+                if (mejora === "monitor" && window.misionesDesbloquearSiCorresponde) {
+                    window.misionesDesbloquearSiCorresponde(Molevel);
+                }
                 
             } else {
-                alert('🚨 No tienes suficientes bitcoins 🚨');
+                // Cuando no hay bitcoins suficientes
+                mostrarAlertaJuego("¡No tienes suficientes bitcoins!");
             }
         });
     });
 
-    // Hacer la ventana del explorador arrastrable
+    // Hacer la ventana del explorador arrastrable y limitada a la pantalla
     if (ventanaExplorador2 && barraExplorador) {
-        makeDraggable(ventanaExplorador2, barraExplorador);
+        makeDraggableLimitado(ventanaExplorador2, barraExplorador, false);
+    }
+
+    // Hacer la ventana de misiones arrastrable y limitada a la pantalla
+    const ventanaMisiones = document.getElementById('ventana-misiones');
+    const barraMisiones = document.querySelector('.barra-misiones');
+    if (ventanaMisiones && barraMisiones) {
+        makeDraggableLimitado(ventanaMisiones, barraMisiones, false);
     }
     
     // Manejar clics en los fondos del explorador
     document.querySelectorAll('.area-archivos .archivo[data-fondo]').forEach(fondo => {
         fondo.addEventListener('click', function() {
-            const precio = parseInt(this.getAttribute('data-precio'));
-            const nombreFondo = this.getAttribute('data-fondo');
-            
-            if (bitcoin >= precio) {
-                bitcoin -= precio;
-                fondoActual = `img/${nombreFondo}.png`;
-                document.querySelector('.container').style.backgroundImage = `url('img/${nombreFondo}.png')`;
-                actualizarBitcoin();
-                alert('¡Fondo comprado y aplicado con éxito!');
+            // El precio real es el valor mostrado en el segundo <span> (ej: ($15000))
+            let precioSpan = this.querySelectorAll('span')[1];
+            let precio = 0;
+            if (precioSpan) {
+                // Extraer número de ($15000) o ($5500)
+                const match = precioSpan.textContent.match(/\$(\d+)/);
+                if (match) precio = parseInt(match[1]);
             } else {
-                alert('No tienes suficientes bitcoins para comprar este fondo');
+                // Fallback al atributo data-precio
+                precio = parseInt(this.getAttribute('data-precio'));
+            }
+            const nombreFondo = this.getAttribute('data-fondo');
+            const rutaFondo = `img/${nombreFondo}.png`;
+
+            // Si ya está equipado, al hacer click lo desactiva (vuelve al fondo base)
+            if (fondoEquipado === rutaFondo) {
+                fondoEquipado = null;
+                document.querySelector('.container').style.backgroundImage = `url('${fondoActual}')`;
+                mostrarAlertaJuego('Fondo desactivado. ¡Has vuelto al fondo base!', 'info');
+                // Quitar clase 'equipado' de todos
+                document.querySelectorAll('.area-archivos .archivo[data-fondo]').forEach(f => f.classList.remove('equipado'));
+                return;
+            }
+
+            // Si no está equipado, intenta comprar o equipar
+            if (bitcoin >= precio || this.classList.contains('comprado')) {
+                if (!this.classList.contains('comprado')) {
+                    bitcoin -= precio;
+                    mostrarAlertaJuego('¡Fondo comprado y equipado con éxito!', 'ok');
+                    this.classList.add('comprado');
+                } else {
+                    mostrarAlertaJuego('¡Fondo equipado!', 'ok');
+                }
+                fondoEquipado = rutaFondo;
+                document.querySelector('.container').style.backgroundImage = `url('${rutaFondo}')`;
+                actualizarBitcoin();
+
+                // Quitar clase 'equipado' de todos y poner solo al actual
+                document.querySelectorAll('.area-archivos .archivo[data-fondo]').forEach(f => f.classList.remove('equipado'));
+                this.classList.add('equipado');
+            } else {
+                mostrarAlertaJuego('No tienes suficientes bitcoins para comprar este fondo');
             }
         });
     });
@@ -409,9 +466,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sistema de clicks automáticos
     setInterval(() => {
         if (autoclicks > 0) {
-            bitcoin += autoclicks;
-            if (bitcoin > maxMonedas) bitcoin = maxMonedas;
-            actualizarBitcoin();
+            // Solo sumar autoclicks y misiones si no está en el máximo
+            if (bitcoin < maxMonedas) {
+                bitcoin += autoclicks;
+                if (bitcoin > maxMonedas) bitcoin = maxMonedas;
+                actualizarBitcoin();
+                // MISIÓN: autoclicks y bitcoins ganados
+                if (window.misionesAutoClick) window.misionesAutoClick(autoclicks);
+                if (window.misionesBitcoin) window.misionesBitcoin(autoclicks);
+            } else {
+                actualizarBitcoin();
+            }
         }
     }, 1000);
 
@@ -422,12 +487,11 @@ document.addEventListener('DOMContentLoaded', () => {
         actualizarAutoClicks();
     }
 
-    // Función para hacer elementos arrastrables
-    function makeDraggable(ventana, barra) {
+    // Función para hacer elementos arrastrables y que no se salgan de la pantalla
+    function makeDraggableLimitado(ventana, barra, permitirMover) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        
-        barra.onmousedown = dragMouseDown;
-        
+        if (!permitirMover) barra.onmousedown = dragMouseDown;
+        else barra.onmousedown = dragMouseDown;
         function dragMouseDown(e) {
             e = e || window.event;
             e.preventDefault();
@@ -436,7 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
         }
-        
         function elementDrag(e) {
             e = e || window.event;
             e.preventDefault();
@@ -444,10 +507,22 @@ document.addEventListener('DOMContentLoaded', () => {
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
-            ventana.style.top = (ventana.offsetTop - pos2) + "px";
-            ventana.style.left = (ventana.offsetLeft - pos1) + "px";
+            let newTop = ventana.offsetTop - pos2;
+            let newLeft = ventana.offsetLeft - pos1;
+            // Limitar a la pantalla solo si permitirMover es true
+            if (permitirMover) {
+                const minLeft = 0;
+                const minTop = 0;
+                const maxLeft = window.innerWidth - ventana.offsetWidth;
+                const maxTop = window.innerHeight - ventana.offsetHeight;
+                if (newLeft < minLeft) newLeft = minLeft;
+                if (newTop < minTop) newTop = minTop;
+                if (newLeft > maxLeft) newLeft = maxLeft;
+                if (newTop > maxTop) newTop = maxTop;
+            }
+            ventana.style.left = newLeft + "px";
+            ventana.style.top = newTop + "px";
         }
-        
         function closeDragElement() {
             document.onmouseup = null;
             document.onmousemove = null;
@@ -476,4 +551,22 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarBitcoin();
     actualizarClicks();
     actualizarAutoClicks();
+
+    function mostrarAlertaJuego(mensaje, tipo = "error") {
+        const alerta = document.getElementById('alerta-juego');
+        if (!alerta) return;
+        let icono = "⚠️";
+        if (tipo === "error") icono = "🚨";
+        if (tipo === "ok") icono = "✅";
+        if (tipo === "info") icono = "ℹ️";
+        alerta.innerHTML = `<span class="icono-alerta">${icono}</span> ${mensaje}`;
+        alerta.classList.add('mostrar');
+        setTimeout(() => {
+            alerta.classList.remove('mostrar');
+        }, 2200);
+    }
 });
+document.querySelectorAll('.area-archivos .archivo[data-fondo]').forEach(fondo => {
+    fondo.classList.remove('equipado');
+});
+this.classList.add('equipado');

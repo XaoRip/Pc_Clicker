@@ -2,13 +2,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 124.9vw;
+    height: 125vh;
     background: #1a1a1a;
     color: white;
-    display: none;
+    display: flex;
     flex-direction: column;
     z-index: 5000;
+    overflow: hidden;
     overflow-y: auto;
     align-items: center;
     justify-content: flex-start;
@@ -66,7 +67,7 @@
     transform: scale(1.12);
 }
 
-/* Copiar el resto de los estilos del prompt para la ruleta, inventario, botones, etc. */
+
 #ruleta {
     display: flex;
     overflow: hidden;
@@ -98,7 +99,7 @@
 #selector {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 45%;
     transform: translate(-50%, -50%);
     width: 5px;
     height: 100%;
@@ -110,6 +111,7 @@
     flex-wrap: wrap;
     width: 1300px;
     height: 200px;
+    overflow: hidden;
     overflow-y: auto;
     align-content: flex-start;
     border: 2px solid #333;
@@ -183,4 +185,26 @@ button#generarBtn:hover {
     height: 10px;
     background: #f0c808;
     opacity: 0;
+}
+.creditos-box {
+    display: flex;
+    align-items: center;
+    background: #222;
+    border-radius: 8px;
+    padding: 4px 12px 4px 6px;
+    margin-left: 12px;
+    margin-right: auto;
+    box-shadow: 0 1px 4px #ffd70044;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ffd700;
+    gap: 6px;
+    min-width: 90px;
+}
+
+.creditos-img {
+    width: 28px;
+    height: 28px;
+    margin-right: 4px;
+    object-fit: contain;
 }

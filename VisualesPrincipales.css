@@ -81,7 +81,7 @@ body, html {
 #auto-clicks { top: 29.5%; }
 
 /* Botones */
-#tienda, #archivos, #config-btn, #caja-btn {
+#tienda, #archivos, #config-btn, #misiones-btn, #caja-btn {
     position: absolute;
     cursor: pointer;
     width: 6%;
@@ -89,6 +89,9 @@ body, html {
     z-index: 5;
     transition: transform 0.2s;
     pointer-events: all;
+}
+
+#misiones-btn {
 }
 
 #tienda {
@@ -106,7 +109,12 @@ body, html {
     top: 28%;
 }
 
+#tienda:hover, #archivos:hover, #config-btn:hover {
+    transform: scale(1.1);
+}
+
 #caja-btn {
+    scale: 0;
     position: absolute;
     cursor: pointer;
     width: 6%;
@@ -116,10 +124,6 @@ body, html {
     pointer-events: all;
     left: 53.5%;
     top: 36%;
-}
-
-#tienda:hover, #archivos:hover, #config-btn:hover, #caja-btn:hover {
-    transform: scale(1.1);
 }
 
 /* Da el efectos de texto flotante */
@@ -148,21 +152,17 @@ body, html {
 
 /* Da el efecto de click */
 .click-effect {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,215,0,0) 70%);
-    border-radius: 50%;
-    opacity: 0;
+    position: fixed;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: rgb(224, 194, 21);
     pointer-events: none;
-    z-index: 5;
-    transform: scale(0);
-    transition: transform 0.3s ease-out, opacity 0.3s;
-}
-
-.click-effect.active {
-    opacity: 0.8;
-    transform: scale(3);
+    opacity: 1;
+    transition: opacity 0.6s, transform 0.6s;
+    user-select: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+    text-shadow: 0 2px 8px #0008;
 }
 
 /* Previene la selección de imágenes */
@@ -170,3 +170,34 @@ img {
     user-select: none;
     -webkit-user-drag: none;
 }
+
+/* Alerta flotante inferior centrada */
+.alerta-juego {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    background: rgba(40,40,40,0.97);
+    color: #fff;
+    padding: 16px 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px #0007;
+    font-size: 1.15em;
+    font-weight: bold;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+
+.alerta-juego.mostrar {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#imghotkey {
+    position: absolute;
+    right: -65%;   
+    top: 15%;     
+    height: 100%;  
+    }

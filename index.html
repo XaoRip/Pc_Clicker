@@ -6,20 +6,23 @@
     <title>PC Clicker</title>
     <link rel="stylesheet" href="VisualesPrincipales.css">
     <link rel="stylesheet" href="Niveles.css">
-    <link rel="stylesheet" href="ExploradorDeArchivos.css">
     <link rel="stylesheet" href="Tienda.css">
-    <link rel="stylesheet" href="Configuracion.css">    
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ExploradorDeArchivos.css">
+    <link rel="stylesheet" href="Configuracion.css">
+    <link rel="stylesheet" href="Misiones.css">
     <link rel="stylesheet" href="Caja.css">
     <script src="java.js" defer></script>
-    <script src="Caja.js"></script>
+    <script src="misiones.js" defer></script>
+    <script src="Caja.js" defer></script>
 </head>
-<body>
+
+<body style="zoom: 80%;">
 
 <div class="container">
     <div class="computadora">
         <div class="screen">
             <img id="pc" src="img/pc.png" alt="PC">
+            <img id="imghotkey" src="img/hotkey.png" alt="HotKey">
             <img id="clicker" src="img/clicker.png" alt="Bitcoin">
             <img id="teclado" src="img/teclado1.png" alt="Teclado">
             <img id="gabinete" src="img/gabinete-base.png" alt="Gabinete" class="gabinete">
@@ -29,6 +32,7 @@
             <img src="img/tienda.png" alt="tienda" id="tienda">
             <img src="img/explorador-archivos.png" alt="explorador-archivos" id="archivos">
             <img src="img/configuracion.png" alt="Configuración" id="config-btn" class="icono-config">
+            <img src="img/misiones.png" alt="Misiones" id="misiones-btn" class="icono-misiones">
             <img src="img/caja.png" alt="Cajas" id="caja-btn">
             <div id="click-effect" class="click-effect"></div> 
         </div>
@@ -231,34 +235,58 @@
         <div class="barra-estado">
             <span>3 elementos</span>
         </div>
-    </div>    <!-- Botón de la caja en la pantalla principal -->
-</div>">
+    </div>
 
-    <!-- Ventana de Cajas -->
+    <div id="ventana-misiones" class="ventana-misiones" style="display:none;">
+        <div class="barra-misiones">
+            <span class="boton-cerrar cerrar-misiones">&times;</span>
+            <span class="titulo-misiones">Misiones</span>
+        </div>
+        <div class="contenido-misiones">
+            <ul id="lista-misiones"></ul>
+                <div class="creditos-misiones">
+                    Krystal: <img src="img/krystal.png" alt="Krystal" style="width:22px;vertical-align:middle;margin-right:2px;">
+                    <span id="krystal-misiones">0</span>
+                </div>
+        </div>
+    </div>
+
+    <!-- Ventana de Caja (Case Opening) -->
     <div id="ventana-caja" class="ventana-caja" style="display:none;">
         <div class="barra-caja">
-            <span class="titulo-caja">Case Safe: GO</span>
-            <button class="cerrar-caja">&times;</button>
+            <span class="cerrar-caja">&times;</span>
+            <span class="titulo-caja">Caja</span>
+            <div class="creditos-box">
+                <img src="img/krystal.png" alt="Krystal" class="creditos-img">
+                <span id="krystal-caja">0</span>
+            </div>
         </div>
+        <!-- Aquí puedes agregar el contenido de la caja, ruleta, etc. -->
         <div id="ruleta">
-            <div id="ruleta-inner"></div>
+            <div id="ruleta-inner">
+                <!-- Items de la ruleta aquí -->
+            </div>
             <div id="selector"></div>
         </div>
         <button id="generarBtn">Abrir Caja</button>
         <div id="mensaje"></div>
         <div id="imagenes"></div>
+        <div class="efecto-confeti"></div>
     </div>
+</div>
 
-    <!-- Ventana de Configuración -->
-    <div id="ventana-config" class="ventana-config" style="display:none;">
-        <div class="barra-config">
-            <span class="boton-cerrar cerrar-config">&times;</span>
-            <span class="titulo-config">Configuración</span>
-        </div>
-        <div class="contenido-config">
-            <h3>Opciones</h3>
-        </div>
+<div id="ventana-config" class="ventana-config" style="display:none;">
+    <div class="barra-config">
+        <span class="boton-cerrar cerrar-config">&times;</span>
+        <span class="titulo-config">Configuración</span>
     </div>
+    <div class="contenido-config">
+        <h3>Opciones</h3>
+    </div>
+</div>
+
+<!-- Alerta flotante para mensajes -->
+<div id="alerta-juego" class="alerta-juego"></div>
 
 </div>
 </body>
