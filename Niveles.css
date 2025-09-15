@@ -39,6 +39,11 @@
     scale: 2;
 }
 
+.screen.monitor-lv5 #mouse {
+    left: 110%;
+    top: 56%;
+    scale: 2.2;
+}
 
 .screen.monitor-lv5 #tienda {
     left: 76%;

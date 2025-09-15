@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const items = [
-        { src: 'img/comun2.png', alt: '', rarity: 'comun', color: 'gray', prob: 25 },            
-        { src: 'img/comun1.png', alt: 'Mouse En Llamas', rarity: 'comun', color: 'gray', prob: 25 },
-        { src: 'img/raro.png', alt: 'EL TANQUE', rarity: 'raro', color: 'purple', prob: 30 },
-        { src: 'img/epico.jpg', alt: 'Item Épico', rarity: 'epico', color: 'pink', prob: 15 },
-        { src: 'img/legendario.png', alt: 'DARWIN EL DEVORADOR DE MUNDOS', rarity: 'legendario', color: 'gold', prob: 4.74 },
-        { src: 'img/mitico.jpg', alt: 'Item Mítico', rarity: 'mitico', color: 'red', prob: 0.26 },
-        { src: 'img/secreto.png', alt: 'EL SECRETO', rarity: 'secreto', color: 'black', prob: 0.01 }
+        { src: 'img/Mouse Madera.png', alt: 'DruidGamerX', rarity: 'comun', color: 'gray', prob: 25, itemName: 'DruidGamerX' },            
+        { src: 'img/Mouse Fire.png', alt: 'Mouse En Llamas', rarity: 'comun', color: 'gray', prob: 25, itemName: 'Mouse En Llamas' },
+        { src: 'img/Mouse Taque.png', alt: 'EL TANQUE', rarity: 'raro', color: 'purple', prob: 30, itemName: 'tanque' },
+        { src: 'img/Reroll.png', alt: '¡Girar De Nuevo!', rarity: 'epico', color: 'pink', prob: 15, itemName: 'Girar de nuevo' },
+        { src: 'img/Mouse GoldFish.png', alt: 'DARWIN EL DEVORADOR DE MUNDOS', rarity: 'legendario', color: 'gold', prob: 4000.74, itemName: 'darwin' },
+        { src: 'img/hotkey cb.png', alt: 'Item Mítico', rarity: 'mitico', color: 'red', prob: 0.26, itemName: 'telefono' },
+        { src: 'img/Telefono.png', alt: 'EL SECRETO', rarity: 'secreto', color: 'black', prob: 0.01, itemName: 'streamdeck'}
     ];
 
     let inventory = [];
     let isOpening = false;
 
-    window.krystal = window.krystal || 0; // Asegura que no se reinicie si ya existe
+    window.krystal = window.krystal || 0;
 
     function updateCreditosBox() {
         const creditosText = document.getElementById('creditos-text');
@@ -106,13 +106,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 mensaje.style.backgroundColor = resultItem.color;
                 mensaje.style.opacity = '1';
 
-                addToInventory(resultItem);
-
-                if (resultItem.rarity === 'legendario' || resultItem.rarity === 'mitico' || resultItem.rarity === 'secreto') {
-                    createConfetti();
+                // Si el item es 'Girar de nuevo', no lo añadas al inventario y vuelve a girar
+                if (resultItem.itemName === 'Girar de nuevo') {
+                    setTimeout(() => {
+                        const nuevoItem = getRandomItem();
+                        spinRuleta(nuevoItem, callback);
+                    }, 1200); // Espera un poco para mostrar el mensaje
+                } else {
+                    addToInventory(resultItem);
+                    if (resultItem.rarity === 'legendario' || resultItem.rarity === 'mitico' || resultItem.rarity === 'secreto') {
+                        createConfetti();
+                    }
+                    if (callback) callback();
                 }
-
-                if (callback) callback();
             }
         }
 
@@ -124,14 +130,100 @@ document.addEventListener('DOMContentLoaded', () => {
         updateInventory();
     }
 
+    function showItemModal(item, index) {
+        let modal = document.getElementById('item-modal');
+        if (modal) modal.remove();
+
+        modal = document.createElement('div');
+        modal.id = 'item-modal';
+        modal.className = 'item-modal-bg';
+        modal.innerHTML = `
+            <div class="item-modal" style="border: 5px solid ${item.color};">
+                <img src="${item.src}" alt="${item.alt}" class="item-modal-img">
+                <div class="item-modal-actions">
+                    <button id="equiparBtn">Equipar</button>
+                    <button id="venderBtn">Vender</button>
+                    <button id="cerrarModalBtn">&times;</button>
+                </div>
+                <div class="item-modal-info">
+                    <span>${item.alt || 'Sin nombre'}</span>
+                    <span>Rareza: ${item.rarity}</span>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Cerrar modal
+        modal.querySelector('#cerrarModalBtn').onclick = () => modal.remove();
+        modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+        // Equipar
+        modal.querySelector('#equiparBtn').onclick = () => {
+            window.equippedItemIndex = index;
+            // Desactiva todos los flags antes de equipar uno nuevo
+            window.llamas = false;
+            window.druid = false;
+            window.darwin = false;
+            window.telefono = false;
+            window.streamdeck = false;
+            window.tanque = false;
+            // Equipar según el itemName
+            switch(item.itemName) {
+                case 'DruidGamerX':
+                    window.druid = true;
+                    break;
+                case 'Mouse En Llamas':
+                    window.llamas = true;
+                    break;
+                case 'darwin':
+                    window.darwin = true;
+                    break;
+                case 'telefono':
+                    window.telefono = true;
+                    break;
+                case 'streamdeck':
+                    window.streamdeck = true;
+                    break;
+                case 'tanque':
+                    window.tanque = true;
+                    break;
+                // Si quieres que "Girar de nuevo" haga algo, agrégalo aquí
+            }
+            updateInventory();
+            modal.remove();
+        };
+
+        // Vender
+        modal.querySelector('#venderBtn').onclick = () => {
+            let krystalGanado = 0;
+            switch(item.rarity) {
+                case 'comun': krystalGanado = 10; break;
+                case 'raro': krystalGanado = 30; break;
+                case 'epico': krystalGanado = 100; break;
+                case 'legendario': krystalGanado = 500; break;
+                case 'mitico': krystalGanado = 2000; break;
+                case 'secreto': krystalGanado = 10000; break;
+            }
+            window.krystal += krystalGanado;
+            inventory.splice(index, 1);
+            updateInventory();
+            actualizarKrystalUI();
+            mostrarAlerta(`¡Vendiste el item por ${krystalGanado} krystal!`);
+            modal.remove();
+        };
+    }
+
     function updateInventory() {
         const imagenes = document.getElementById('imagenes');
         imagenes.innerHTML = '';
-        inventory.forEach(item => {
+        inventory.forEach((item, idx) => {
             const itemBox = document.createElement('div');
             itemBox.className = 'item-box';
-            // Mostrar siempre la imagen real en el inventario
+            if (window.equippedItemIndex === idx) {
+                itemBox.classList.add('highlight');
+            }
             itemBox.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
+            itemBox.onclick = () => showItemModal(item, idx);
             imagenes.appendChild(itemBox);
         });
     }

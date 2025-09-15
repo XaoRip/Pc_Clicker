@@ -51,15 +51,27 @@ body, html {
     transition: transform 0.1s ease-out;
     left: 33%;
     top: 12%;
-    z-index: 10;
+    z-index: 9999; /* Asegura que esté encima de todo */
+    pointer-events: auto; /* Permite clicks */
+    display: block; /* Asegura que esté visible */
 }
-
+#mouse{
+    position: absolute;
+    pointer-events: none;
+    width: 48%;
+    top: 57%;
+    scale: 2.5;
+    left: 115%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
 #teclado {
     position: absolute;
     pointer-events: none;
     width: 48%;
-    bottom: -20%;
-    left: 50%;
+    top: 59%;
+    scale: 2.5;
+    left: 76%;
     transform: translateX(-50%);
     z-index: 1;
 }

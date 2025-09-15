@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Variables del juego
     let bitcoin = 5000;
     let gabinetepts = 0;
     let incremento = 1;
@@ -20,7 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let Elevel = 0;
     let AutoBit = 4000/Glevel;
     let fondoActual = 'img/Fondo base.png';
-    let fondoEquipado = null; // Nuevo: guarda el fondo actualmente equipado
+    let fondoEquipado = null;
+    let tiempo = 5;
+    let intervalo;
+    let multi = 1;
+    let fuegos = 0;
+    let gold = 0;
+    const contador = document.getElementById('contador');
 
     // Elementos del DOM
     const clicker = document.getElementById('clicker');
@@ -45,6 +50,189 @@ document.addEventListener('DOMContentLoaded', () => {
     const ventanaCaja = document.getElementById('ventana-caja');
     const cerrarCajaBtn = document.querySelector('.cerrar-caja');
 
+
+
+
+    
+function goldclick(e, incrementoBase) {
+    let oroClicks = Math.floor(Math.random() * 32) + 1;
+    const mouseImg = document.getElementById('mouse');
+    const bitcoinElem = document.getElementById('bitcoin');
+    if (!mouseImg || !bitcoinElem) return 0;
+    const mouseRect = mouseImg.getBoundingClientRect();
+    const x0 = mouseRect.left + mouseRect.width / 2;
+    const y0 = mouseRect.top + mouseRect.height / 2;
+    const bitcoinRect = bitcoinElem.getBoundingClientRect();
+    const x1 = bitcoinRect.left + bitcoinRect.width / 2;
+    const y1 = bitcoinRect.top + bitcoinRect.height / 2;
+    for (let i = 0; i < oroClicks; i++) {
+        setTimeout(() => {
+            if (bitcoin < maxMonedas) {
+                bitcoin += incrementoBase;
+                crearEscamaNaranja(x0, y0, x1, y1);
+                actualizarBitcoin();
+            }
+        }, i * 1);
+    }
+    return oroClicks * incrementoBase;
+}
+
+function crearEscamaNaranja(x0, y0, x1, y1) {
+    const escamaImgs = ['escama1.png', 'escama2.png', 'escama3.png'];
+    const imgSrc = 'img/' + escamaImgs[Math.floor(Math.random() * escamaImgs.length)];
+    const escama = document.createElement('img');
+    escama.className = 'escama-naranja';
+    escama.src = imgSrc;
+    escama.style.position = 'fixed';
+    escama.style.left = `${x0}px`;
+    escama.style.top = `${y0}px`;
+    escama.style.width = '18px';
+    escama.style.height = '18px';
+    escama.style.zIndex = 9999;
+    escama.style.pointerEvents = 'none';
+    escama.style.opacity = '1';
+    escama.style.animation = 'escama-spin 0.7s linear infinite';
+
+    document.body.appendChild(escama);
+
+    // Trayectoria curva: mouse -> bitcoin (círculo grande)
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 180 + Math.random() * 120;
+    const midX = x0 + Math.cos(angle) * distance;
+    const midY = y0 + Math.sin(angle) * distance;
+
+    const duration = 700; // ms
+    const start = performance.now();
+
+    function animateEscama(now) {
+        const t = Math.min((now - start) / duration, 1);
+        // Bezier cuadrático: P0 (x0,y0), P1 (midX,midY), P2 (x1,y1)
+        const x = (1-t)*(1-t)*x0 + 2*(1-t)*t*midX + t*t*x1;
+        const y = (1-t)*(1-t)*y0 + 2*(1-t)*t*midY + t*t*y1;
+        escama.style.left = `${x}px`;
+        escama.style.top = `${y}px`;
+        escama.style.opacity = `${1-t*0.8}`;
+        if (t < 1) {
+            requestAnimationFrame(animateEscama);
+        } else {
+            escama.remove();
+        }
+    }
+    requestAnimationFrame(animateEscama);
+}
+
+function TanqueClick(){
+    fuegos++;
+}
+
+function ContadorTanque() {
+    tiempo = 5;
+    clearInterval(intervalo);
+    intervalo = setInterval(() => {
+        tiempo--;
+        if (tiempo === 0) {
+            clearInterval(intervalo);
+            const suma = fuegos * 10;
+            bitcoin += suma;
+            // Animación de explosión sobre el bitcoin
+            explosionBitcoin(suma);
+            fuegos = 0;
+        }
+    }, 1000);
+}
+
+// Animación de explosión y texto rojo sobre el bitcoin
+function explosionBitcoin(suma) {
+    // Posición aleatoria en la pantalla
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    const randX = Math.random() * (vw - 200) + 100; // evita los bordes
+    const randY = Math.random() * (vh - 200) + 100;
+
+    // Crear explosión visual
+    const explosion = document.createElement('div');
+    explosion.className = 'explosion-bitcoin';
+    explosion.style.position = 'fixed';
+    explosion.style.left = `${randX - 80}px`;
+    explosion.style.top = `${randY - 80}px`;
+    explosion.style.width = '160px';
+    explosion.style.height = '160px';
+    explosion.style.background = 'radial-gradient(circle, #ff3c00 60%, #ffb347 100%)';
+    explosion.style.borderRadius = '50%';
+    explosion.style.opacity = '0.85';
+    explosion.style.zIndex = 9999;
+    explosion.style.pointerEvents = 'none';
+    explosion.style.boxShadow = '0 0 40px 20px #ff3c00';
+    explosion.style.transition = 'transform 2.5s, opacity 2.5s';
+
+    document.body.appendChild(explosion);
+
+    setTimeout(() => {
+        explosion.style.transform = 'scale(2)';
+        explosion.style.opacity = '0';
+    }, 100);
+
+    setTimeout(() => {
+        explosion.remove();
+    }, 5000);
+
+    // Texto flotante rojo en la misma posición
+    const texto = document.createElement('div');
+    texto.textContent = `+${suma} Bitcoins`;
+    texto.style.position = 'fixed';
+    texto.style.left = `${randX}px`;
+    texto.style.top = `${randY - 60}px`;
+    texto.style.transform = 'translate(-50%, 0)';
+    texto.style.color = '#ff3333';
+    texto.style.fontWeight = 'bold';
+    texto.style.fontSize = '2.5em';
+    texto.style.textShadow = '0 0 8px #ff3333cc';
+    texto.style.zIndex = 9999;
+    texto.style.pointerEvents = 'none';
+    texto.style.opacity = '1';
+    texto.style.transition = 'opacity 2.5s, transform 2.5s';
+
+    document.body.appendChild(texto);
+
+    setTimeout(() => {
+        texto.style.opacity = '0';
+        texto.style.transform = 'translate(-50%, -40px)';
+    }, 100);
+
+    setTimeout(() => {
+        texto.remove();
+    }, 3000);
+
+    // Actualizar visualización
+    actualizarBitcoin();
+}
+
+function iniciarContador() {
+            document.body.classList.remove('red-bg');
+            tiempo = 5;
+            contador.textContent = tiempo;
+            clearInterval(intervalo);
+            intervalo = setInterval(() => {
+                tiempo--;
+                contador.textContent = tiempo;
+                if (tiempo === 0) {
+                    clearInterval(intervalo);
+                    fuegos = 0;
+                    multi = 1;
+                }
+            }, 1000);
+        }
+
+
+        function Multiplicador() {
+            fuegos++;
+            multi = 1 + fuegos / 100;
+            }
+        function llamasclick() {
+            iniciarContador();
+            Multiplicador();
+        }
+
     // Función para formatear números grandes
     function formatearNumero(num) {
         num = parseInt(num);
@@ -65,9 +253,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Configuración inicial de estilos
     if (clicker) {
-        clicker.style.zIndex = '10';
-        clicker.style.pointerEvents = 'auto';
+        clicker.style.zIndex = '9999'; // Asegura que esté encima de todo
+        clicker.style.pointerEvents = 'auto'; // Permite clicks
+        clicker.style.display = 'block'; // Asegura que esté visible
         clicker.style.transition = 'transform 0.1s ease-out';
+        clicker.addEventListener('click', (e) => {
+            console.log('Clicker clicked'); // Depuración
+            e.preventDefault();
+            e.stopPropagation();
+            let incrementoClick = incremento;
+            if (window.druid === true) {
+                if (Math.random() < 0.5) {
+                    incrementoClick *= 2;
+                } else {
+                    incrementoClick = 0;
+                }
+            }
+            else if (window.llamas === true) {
+                llamasclick();
+                incrementoClick *= multi;
+                if (incrementoClick < 1) incrementoClick = 1;
+            }
+            else if (window.darwin === true) {
+                let ganado = goldclick(e, incremento);
+                incrementoClick = ganado;
+            } else {
+                // escama normal para click manual
+                const mouseImg = document.getElementById('mouse');
+                const bitcoinElem = document.getElementById('bitcoin');
+                if (mouseImg && bitcoinElem) {
+                    const mouseRect = mouseImg.getBoundingClientRect();
+                    const x0 = mouseRect.left + mouseRect.width / 2;
+                    const y0 = mouseRect.top + mouseRect.height / 2;
+                    const bitcoinRect = bitcoinElem.getBoundingClientRect();
+                    const x1 = bitcoinRect.left + bitcoinRect.width / 2;
+                    const y1 = bitcoinRect.top + bitcoinRect.height / 2;
+                    crearEscamaNaranja(x0, y0, x1, y1);
+                }
+            }
+            // Solo muestra decimales si no es entero
+            let incrementoFormateado;
+            if (Number.isInteger(incrementoClick)) {
+                incrementoFormateado = incrementoClick;
+            } else {
+                incrementoFormateado = incrementoClick.toFixed(2);
+            }
+            // Solo mostrar el texto flotante si no es darwin (ya lo muestra goldclick)
+            if (!window.darwin) {
+                crearTextoFlotante(e.clientX, e.clientY, `+${incrementoFormateado}`);
+            }
+            bitcoin += incrementoClick;
+            if (bitcoin > maxMonedas) bitcoin = maxMonedas;
+            actualizarBitcoin();
+            // MISIÓN: click manual y bitcoins ganados SOLO si no está en el máximo
+            if (bitcoin < maxMonedas) {
+                if (window.misionesClickManual) window.misionesClickManual();
+                if (window.misionesBitcoin) window.misionesBitcoin(incrementoClick);
+            }
+        });
     }
     if (pc) pc.style.pointerEvents = 'none';
     if (teclado) teclado.style.pointerEvents = 'none';
@@ -156,23 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Evento de clic básico con efecto de texto flotante
-    if (clicker) {
-        clicker.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            crearTextoFlotante(e.clientX, e.clientY, `+${incremento}`);
-
-            bitcoin += incremento;
-            if (bitcoin > maxMonedas) bitcoin = maxMonedas;
-            actualizarBitcoin();
-            // MISIÓN: click manual y bitcoins ganados SOLO si no está en el máximo
-            if (bitcoin < maxMonedas) {
-                if (window.misionesClickManual) window.misionesClickManual();
-                if (window.misionesBitcoin) window.misionesBitcoin(incremento);
-            }
-        });
-    }
 
     setInterval(() => {
         if (bitcoin >= maxMonedas) {
@@ -323,6 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (Molevel >= 5) {
                             monitorImg.src = "img/monitor-lv5.png";
                             screenDiv.classList.add('monitor-lv5');
+                            screenDiv.classList.add('mouse-lv5')
                         } else {
                             monitorImg.src = "img/pc.png";
                             screenDiv.classList.remove('monitor-lv5');
@@ -340,6 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (Gablevel === 5) {
                             const tecladoImg = document.getElementById('teclado');
                             tecladoImg.src = 'img/teclado-lv5.png';
+                            
                         }
                         
                         if (Gablevel >= 10 && Gablevel % 10 === 0) {
@@ -569,4 +797,16 @@ document.addEventListener('DOMContentLoaded', () => {
 document.querySelectorAll('.area-archivos .archivo[data-fondo]').forEach(fondo => {
     fondo.classList.remove('equipado');
 });
-this.classList.add('equipado');
+
+// Agrega la animación de giro rápido para las escamas (puedes poner esto al final del archivo o en tu CSS)
+const style = document.createElement('style');
+style.textContent = `
+@keyframes escama-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(720deg); }
+}
+.escama-naranja {
+    animation: escama-spin 0.7s linear infinite;
+}
+`;
+document.head.appendChild(style);
