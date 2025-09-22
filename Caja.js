@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const items = [
-        { src: 'img/Mouse Madera.png', alt: 'DruidGamerX', rarity: 'comun', color: 'gray', prob: 25, itemName: 'DruidGamerX' },            
-        { src: 'img/Mouse Fire.png', alt: 'Mouse En Llamas', rarity: 'comun', color: 'gray', prob: 25, itemName: 'Mouse En Llamas' },
-        { src: 'img/Mouse Taque.png', alt: 'EL TANQUE', rarity: 'raro', color: 'purple', prob: 30, itemName: 'tanque' },
-        { src: 'img/Reroll.png', alt: '¡Girar De Nuevo!', rarity: 'epico', color: 'pink', prob: 15, itemName: 'Girar de nuevo' },
-        { src: 'img/Mouse GoldFish.png', alt: 'DARWIN EL DEVORADOR DE MUNDOS', rarity: 'legendario', color: 'gold', prob: 4000.74, itemName: 'darwin' },
-        { src: 'img/hotkey cb.png', alt: 'Item Mítico', rarity: 'mitico', color: 'red', prob: 0.26, itemName: 'telefono' },
-        { src: 'img/Telefono.png', alt: 'EL SECRETO', rarity: 'secreto', color: 'black', prob: 0.01, itemName: 'streamdeck'}
+        { src: 'img/Mouse Madera.png', alt: 'DruidGamerX', rarity: 'comun', color: 'gray', prob: 25, itemName: 'DruidGamerX', imgmosue: 'img/Mouse Madera sb.png'},            
+        { src: 'img/Mouse Fire.png', alt: 'Mouse En Llamas', rarity: 'comun', color: 'gray', prob: 25, itemName: 'Mouse En Llamas', imgmosue: 'img/Mouse Fire sb.png'},
+        { src: 'img/Mouse Taque.png', alt: 'EL TANQUE', rarity: 'raro', color: 'purple', prob: 30, itemName: 'tanque', imgmosue: 'img/Mouse Tanque sb.png'},
+        { src: 'img/Reroll.png', alt: '¡Girar De Nuevo!', rarity: 'epico', color: 'pink', prob: 15, itemName: 'Girar de nuevo', imgmosue: 'img/Reroll.png'},
+        { src: 'img/Mouse GoldFish.png', alt: 'DARWIN EL DEVORADOR DE MUNDOS', rarity: 'legendario', color: 'gold', prob: 0.4, itemName: 'darwin', imgmosue: 'img/Mouse GoldFish sb.png'},
+        { src: 'img/hotkey cb.png', alt: 'streamdeck', rarity: 'mitico', color: 'red', prob: 0.26, itemName: 'Stream Deck', imgmosue: 'img/hotkey.png'},
+        { src: 'img/Mouse Telefono.png', alt: 'Telefono', rarity: 'secreto', color: 'black', prob: 1000.01, itemName: 'Telefono', imgmouse: 'img/Mouse Telefono sb.png'}
     ];
 
     let inventory = [];
@@ -168,26 +168,38 @@ document.addEventListener('DOMContentLoaded', () => {
             window.streamdeck = false;
             window.tanque = false;
             // Equipar según el itemName
+            let mouseClass = '';
             switch(item.itemName) {
                 case 'DruidGamerX':
                     window.druid = true;
+                    mouseClass = 'mouse-madera';
                     break;
                 case 'Mouse En Llamas':
                     window.llamas = true;
+                    mouseClass = 'mouse-fire';
                     break;
                 case 'darwin':
                     window.darwin = true;
+                    mouseClass = 'mouse-goldfish';
                     break;
                 case 'telefono':
                     window.telefono = true;
+                    mouseClass = 'mouse-hotkey';
                     break;
                 case 'streamdeck':
                     window.streamdeck = true;
+                    mouseClass = 'mouse-telefono';
                     break;
                 case 'tanque':
                     window.tanque = true;
+                    mouseClass = 'mouse-tanque';
                     break;
-                // Si quieres que "Girar de nuevo" haga algo, agrégalo aquí
+            }
+            const mouseImg = document.getElementById('mouse');
+            if (mouseImg) {
+                mouseImg.src = item.imgmouse || item.imgmosue || 'img/Mouse Base.png';
+                mouseImg.classList.remove('mouse-madera','mouse-fire','mouse-tanque','mouse-goldfish','mouse-hotkey','mouse-telefono');
+                if (mouseClass) mouseImg.classList.add(mouseClass);
             }
             updateInventory();
             modal.remove();
@@ -221,11 +233,34 @@ document.addEventListener('DOMContentLoaded', () => {
             itemBox.className = 'item-box';
             if (window.equippedItemIndex === idx) {
                 itemBox.classList.add('highlight');
+                // Cambiar imagen del mouse si el item tiene imgmouse o imgmosue y aplicar clase
+                const mouseImg = document.getElementById('mouse');
+                if (mouseImg) {
+                    mouseImg.src = item.imgmouse || item.imgmosue || 'img/Mouse Base.png';
+                    let mouseClass = '';
+                    switch(item.itemName) {
+                        case 'DruidGamerX': mouseClass = 'mouse-madera'; break;
+                        case 'Mouse En Llamas': mouseClass = 'mouse-fire'; break;
+                        case 'darwin': mouseClass = 'mouse-goldfish'; break;
+                        case 'telefono': mouseClass = 'mouse-hotkey'; break;
+                        case 'streamdeck': mouseClass = 'mouse-telefono'; break;
+                        case 'tanque': mouseClass = 'mouse-tanque'; break;
+                    }
+                    mouseImg.classList.remove('mouse-madera','mouse-fire','mouse-tanque','mouse-goldfish','mouse-hotkey','mouse-telefono','mouse-default');
+                    if (mouseClass) mouseImg.classList.add(mouseClass);
+                }
             }
             itemBox.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
             itemBox.onclick = () => showItemModal(item, idx);
             imagenes.appendChild(itemBox);
         });
+        // Si no hay mouse equipado, poner el default
+        const mouseImg = document.getElementById('mouse');
+        if (mouseImg && window.equippedItemIndex === undefined) {
+            mouseImg.src = 'img/Mouse Base.png';
+            mouseImg.classList.remove('mouse-madera','mouse-fire','mouse-tanque','mouse-goldfish','mouse-hotkey','mouse-telefono');
+            mouseImg.classList.add('mouse-default');
+        }
     }
 
     function createConfetti() {

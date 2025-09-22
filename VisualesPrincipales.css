@@ -60,7 +60,6 @@ body, html {
     pointer-events: none;
     width: 48%;
     top: 57%;
-    scale: 2.5;
     left: 115%;
     transform: translateX(-50%);
     z-index: 1;
@@ -213,3 +212,38 @@ img {
     top: 15%;     
     height: 100%;  
     }
+
+#mouse.mouse-madera {
+    /* Personaliza el mouse madera aquí */
+    transform: translateX(-50%) scale(0.9);
+}
+#mouse.mouse-fire {
+    /* Personaliza el mouse en llamas aquí */
+    transform: translateX(-50%) scale(2.5);
+}
+#mouse.mouse-tanque {
+    /* Personaliza el mouse tanque aquí */
+    transform: translateX(-50%) scale(1.5);
+}
+#mouse.mouse-goldfish {
+    /* Personaliza el mouse goldfish aquí */
+    transform: translateX(-50%) scale(2.5);
+}
+#mouse.mouse-hotkey {
+    /* Personaliza el mouse hotkey aquí */
+    transform: translateX(-50%) scale(2.5);
+}
+#mouse.mouse-telefono {
+    /* Personaliza el mouse telefono aquí */
+    transform: translateX(-50%) scale(2.5);
+}
+#mouse.mouse-default {
+    position: absolute;
+    pointer-events: none;
+    width: 48%;
+    top: 57%;
+    left: 80%;
+    transform: translateX(-50%);
+    z-index: 1;
+    transform: translateX(-50%) scale(2.5);
+}

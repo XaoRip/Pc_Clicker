@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let multi = 1;
     let fuegos = 0;
     let gold = 0;
+    let Boost = 1;
+    let boostactual = 1;
+    let luckytelefono = false;
+    let inicadotel = false;
     const contador = document.getElementById('contador');
 
     // Elementos del DOM
@@ -49,10 +53,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const cajaBtn = document.getElementById('caja-btn');
     const ventanaCaja = document.getElementById('ventana-caja');
     const cerrarCajaBtn = document.querySelector('.cerrar-caja');
+    const mouseImg = document.getElementById('mouse');
+    const txtBonus = document.getElementById('Bonus-Celu');
 
+    if (mouseImg) {
+        mouseImg.addEventListener('click', (e) => {
+            if (window.telefono === true) {
+                if (luckytelefono === false) {
+                mouseImg.src = 'img/Mouse Telefono sb.png';
+                txtBonus.textContent = `¡BONUS!: ${Boost}`;
+                boostactual = Boost;
+                txtBonus.style.display = 'block';
+                }
+            }
+        });
+    }
 
+function ContadorCelu() {
+    tiempo = 5;
+    inicadotel = true;
+    clearInterval(intervalo);
+    intervalo = setInterval(() => {
+        tiempo--;
+        if (tiempo === 0) {
+            clearInterval(intervalo);
+            Boost = Math.floor(Math.random() * 120)- 20;
+            UpdpCelu();
+            tiempo = 5;
+            luckytelefono = true;
+            boostactual = 1;
+            inicadotel = false;
+        }
+    }, 1000);
+}
 
+function UpdpCelu() {
+    txtBonus.style.display = 'none';
+    mouseImg.src = 'img/telefono lucky.png';
 
+}
     
 function goldclick(e, incrementoBase) {
     let oroClicks = Math.floor(Math.random() * 32) + 1;
@@ -258,10 +297,22 @@ function iniciarContador() {
         clicker.style.display = 'block'; // Asegura que esté visible
         clicker.style.transition = 'transform 0.1s ease-out';
         clicker.addEventListener('click', (e) => {
-            console.log('Clicker clicked'); // Depuración
             e.preventDefault();
             e.stopPropagation();
             let incrementoClick = incremento;
+            // Si no hay mouse equipado, solo sumar bitcoins y mostrar texto flotante
+            if (window.equippedItemIndex === undefined) {
+                bitcoin += incrementoClick;
+                if (bitcoin > maxMonedas) bitcoin = maxMonedas;
+                actualizarBitcoin();
+                crearTextoFlotante(e.clientX, e.clientY, `+${incrementoClick}`);
+                // MISIÓN: click manual y bitcoins ganados SOLO si no está en el máximo
+                if (bitcoin < maxMonedas) {
+                    if (window.misionesClickManual) window.misionesClickManual();
+                    if (window.misionesBitcoin) window.misionesBitcoin(incrementoClick);
+                }
+                return;
+            }
             if (window.druid === true) {
                 if (Math.random() < 0.5) {
                     incrementoClick *= 2;
@@ -277,7 +328,20 @@ function iniciarContador() {
             else if (window.darwin === true) {
                 let ganado = goldclick(e, incremento);
                 incrementoClick = ganado;
-            } else {
+            } else if (window.tanque === true) {
+                if(fuegos < 1){
+                    ContadorTanque();
+                }
+                TanqueClick();
+                return;
+            }
+            else if (window.telefono === true) {
+                if (inicadotel === false) {
+                    ContadorCelu();
+                }
+                incrementoClick *= boostactual;
+            }
+            else if (window.darwin){
                 // escama normal para click manual
                 const mouseImg = document.getElementById('mouse');
                 const bitcoinElem = document.getElementById('bitcoin');
