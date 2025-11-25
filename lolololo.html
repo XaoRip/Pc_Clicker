@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contador de 5 segundos</title>
+    <style>
+        body.red-bg {
+            background-color: red;
+        }
+        #contador {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="contador">5</div>
+    <button id="reiniciar">Reiniciar</button>
+    <div id="multiplicador">Multiplicador: x1</div>
+    <div id="fuego">0</div>
+    <div id="monedas">Monedas: 0</div>
+    <script>
+        let tiempo = 5;
+        let intervalo;
+        let multi = 1;
+        let fuegos = 0;
+        let monedas = 0;
+        const contador = document.getElementById('contador');
+        const boton = document.getElementById('reiniciar');
+        const multip = document.getElementById('multiplicador'); 
+        const fuegoss = document.getElementById('fuego');
+        const monedass = document.getElementById('monedas');
+        function iniciarContador() {
+            document.body.classList.remove('red-bg');
+            tiempo = 5;
+            contador.textContent = tiempo;
+            clearInterval(intervalo);
+            intervalo = setInterval(() => {
+                tiempo--;
+                contador.textContent = tiempo;
+                if (tiempo === 0) {
+                    clearInterval(intervalo);
+                    fuegos = 0;
+                    multi = 1;
+                }
+            }, 1000);
+        }
+        function Multiplicador() {
+            fuegos++;
+            multi = 1 + fuegos / 100; // ahora puede ser decimal
+            }
+        function manejarClick() {
+            iniciarContador();
+            Multiplicador();
+        }
+        boton.addEventListener('click', manejarClick);
+        iniciarContador();
+    </script>
+</body>
+</html>
