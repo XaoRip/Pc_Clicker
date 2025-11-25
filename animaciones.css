@@ -1,0 +1,319 @@
+/* En VisualesPrincipales.css */
+#clicker {
+    /* ... propiedades existentes ... */
+    transition: transform 0.2s ease;
+}
+
+#clicker:active {
+    transform: scale(0.95);
+}
+
+/* Efecto de pulsación más elaborado */
+@keyframes pulse-click {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.click-animado {
+    animation: pulse-click 0.3s ease;
+}
+
+/* Partículas al hacer clic */
+@keyframes particle-float {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.2);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(
+            calc(var(--particle-dx) * 50px),
+            calc(var(--particle-dy) * 50px)
+        ) scale(0.4);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(
+            calc(var(--particle-dx) * 80px),
+            calc(var(--particle-dy) * 80px)
+        ) scale(0);
+    }
+}
+
+.particle {
+    position: fixed;
+    background: radial-gradient(circle, #ffd700, #ffa500);
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px; 
+    margin-top: -4px;  
+    pointer-events: none;
+    z-index: 10000;
+    animation: particle-float 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.9);
+    transform-origin: center;
+}
+
+@keyframes window-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+#ventana-tienda, 
+#ventana-explorador, 
+#ventana-config, 
+#ventana-misiones, 
+#ventana-caja {
+    animation: window-appear 0.3s ease-out;
+}
+
+/* Animación para botones */
+#tienda, #archivos, #config-btn, #misiones-btn, #caja-btn {
+    transition: all 0.3s ease;
+}
+
+#tienda:hover, #archivos:hover, #config-btn:hover, #misiones-btn:hover, #caja-btn:hover {
+    transform: translateY(-3px) rotate(2deg);
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Efecto de confeti para recompensas importantes */
+@keyframes confeti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.confeti-piece {
+    position: fixed;
+    width: 10px;
+    height: 20px;
+    background: var(--confeti-color);
+    opacity: 0;
+    z-index: 10000;
+    animation: confeti-fall 3s ease-in forwards;
+}
+
+/* Efecto de nivel up */
+@keyframes level-up {
+    0% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+    }
+    50% { 
+        transform: scale(1.2);
+        box-shadow: 0 0 20px 10px rgba(255, 215, 0, 0.3);
+    }
+    100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
+}
+
+.nivel-subido {
+    animation: level-up 0.5s ease-out;
+}
+
+/* Transición suave entre fondos */
+.container {
+    transition: background-image 1s ease-in-out;
+}
+
+/* Efecto de brillo en elementos destacados */
+@keyframes highlight-pulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.5); }
+    100% { filter: brightness(1); }
+}
+
+.destacado {
+    animation: highlight-pulse 2s infinite;
+}
+
+/* Transición suave entre fondos */
+.container {
+    transition: background-image 1s ease-in-out;
+}
+
+/* Efecto de brillo en elementos destacados */
+@keyframes highlight-pulse {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.5); }
+    100% { filter: brightness(1); }
+}
+
+.destacado {
+    animation: highlight-pulse 2s infinite;
+}
+
+/* En Caja.css - mejorar la animación de la ruleta */
+@keyframes ruleta-spin {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-160px * 25)); }
+}
+
+#ruleta-inner.girando {
+    animation: ruleta-spin 5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Efecto de destello para items raros */
+@keyframes rare-item-glow {
+    0% { filter: brightness(1) drop-shadow(0 0 5px currentColor); }
+    50% { filter: brightness(1.5) drop-shadow(0 0 20px currentColor); }
+    100% { filter: brightness(1) drop-shadow(0 0 5px currentColor); }
+}
+
+.item-box.raro { animation: rare-item-glow 2s infinite; color: purple; }
+.item-box.epico { animation: rare-item-glow 1.5s infinite; color: pink; }
+.item-box.legendario { animation: rare-item-glow 1s infinite; color: gold; }
+.item-box.mitico { animation: rare-item-glow 0.5s infinite; color: red; }
+.item-box.secreto { 
+    animation: rare-item-glow 0.25s infinite; 
+    color: black;
+    background: linear-gradient(45deg, #000, #222, #000);
+}
+
+/* En Niveles.css */
+@keyframes component-evolution {
+    0% {
+        filter: brightness(1) drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+        transform: scale(1);
+    }
+    50% {
+        filter: brightness(1.5) drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+        transform: scale(1.1);
+    }
+    100% {
+        filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+        transform: scale(1);
+    }
+}
+
+.evolucionando {
+    animation: component-evolution 1.5s ease-out;
+}
+
+/* Efecto de nivel máximo */
+@keyframes max-level-glow {
+    0% { filter: drop-shadow(0 0 5px #ff00ff) hue-rotate(0deg); }
+    50% { filter: drop-shadow(0 0 20px #ff00ff) hue-rotate(180deg); }
+    100% { filter: drop-shadow(0 0 5px #ff00ff) hue-rotate(360deg); }
+}
+
+.nivel-maximo {
+    animation: max-level-glow 3s infinite;
+}
+
+/* Animación al cerrar ventanas */
+@keyframes cerrar-ventana {
+    0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+    70% {
+        opacity: 0.7;
+        transform: scale(0.95) translateY(10px);
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+        filter: blur(4px);
+    }
+}
+
+.cerrando {
+    animation: cerrar-ventana 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Efecto de partículas al cerrar */
+@keyframes particulas-cierre {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(var(--particle-dx), var(--particle-dy)) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(
+            calc(var(--particle-dx) * 1.5), 
+            calc(var(--particle-dy) * 1.5)
+        ) scale(0.5);
+    }
+}
+
+.particula-cierre {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    animation: particulas-cierre 0.6s ease-out forwards;
+}
+
+/* Animación para incremento de bitcoins */
+@keyframes incremento-bitcoin {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(255, 215, 0, 0);
+    }
+    50% {
+        transform: scale(1.2);
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(255, 215, 0, 0);
+    }
+}
+
+.incremento-bitcoin {
+    animation: incremento-bitcoin 0.6s ease-out;
+}
+
+/* Efecto de partículas doradas */
+@keyframes particulas-oro {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(
+            var(--particle-tx), 
+            var(--particle-ty)
+        ) scale(0);
+    }
+}
+
+.particula-oro {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #ffd700 30%, #ffb700 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    animation: particulas-oro 1s ease-out forwards;
+    box-shadow: 0 0 5px gold;
+}
+

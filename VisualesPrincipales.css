@@ -26,7 +26,7 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 12%;
+    margin-top: 9%;
 }
 
 .screen {
@@ -57,11 +57,37 @@ body, html {
 #teclado {
     position: absolute;
     pointer-events: none;
-    width: 48%;
-    bottom: -20%;
-    left: 50%;
+    width: 100%;
+    bottom: -32%;
+    left: 47%;
     transform: translateX(-50%);
     z-index: 1;
+    top: auto; /* anclar por bottom en lugar de top para evitar que cambios de monitor lo muevan */
+}
+
+/* Gabinete: mantener fuera del flujo y con tamaño controlado para evitar reflow al cambiar imagen */
+#gabinete {
+    position: absolute;
+    pointer-events: auto; /* permitir mover/interactuar */
+    width: 18%;
+    max-width: 220px;
+    height: auto;
+    left: 5%; /* posición por defecto, ajustar si es necesario */
+    bottom: 6%;
+    transform: translateX(0) translateY(0);
+    z-index: 2;
+    transition: transform 0.3s ease, width 0.3s ease;
+}
+
+#mouse {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    bottom: -20%;
+    left: 79%;
+    transform: translateX(-50%);
+    z-index: 1;
+    top: 32%;
 }
 
 /* Textos de estadísticas */
@@ -109,7 +135,7 @@ body, html {
     top: 28%;
 }
 
-#tienda:hover, #archivos:hover, #config-btn:hover {
+#tienda:hover, #archivos:hover, #config-btn:hover, #caja-btn:hover, #misiones-btn:hover {
     transform: scale(1.1);
 }
 
@@ -201,3 +227,58 @@ img {
     top: 15%;     
     height: 100%;  
     }
+
+/* Ocultar imagen hotkey según petición */
+#imghotkey {
+    display: none !important;
+}
+
+#mouse.mouse-madera {
+    /* Personaliza el mouse madera aquí */
+    transform: translateX(-50%) scale(0.8);
+    top: 30%;
+}
+#mouse.mouse-fire {
+    /* Personaliza el mouse en llamas aquí */
+    transform: translateX(-50%) scale(0.4);
+}
+#mouse.mouse-tanque {
+    /* Personaliza el mouse tanque aquí */
+    transform: translateX(-50%) scale(0.4);
+}
+#mouse.mouse-goldfish {
+    /* Personaliza el mouse goldfish aquí */
+    transform: translateX(-50%) scale(0.4);
+}
+#mouse.mouse-hotkey {
+    /* Personaliza el mouse hotkey aquí */
+    transform: translateX(-50%) scale(0.9);
+}
+#mouse.mouse-telefono {
+    /* Personaliza el mouse telefono aquí */
+    transform: translateX(-50%) scale(0.9);
+}
+#mouse.mouse-default {
+    position: absolute;
+    pointer-events: none;
+    width: 48%;
+    top: 57%;
+    left: 80%;
+    transform: translateX(-50%);
+    z-index: 1;
+    transform: translateX(-50%) scale(2.5);
+}
+
+.telefono {
+    /* Hacer invisible */
+    display: none !important;
+    /* conservar reglas previas por si se usa en animaciones */
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.18s ease;
+}
+
+/* Asegurar que el elemento con id Bonus-Celu también quede oculto */
+#Bonus-Celu {
+    display: none !important;
+}

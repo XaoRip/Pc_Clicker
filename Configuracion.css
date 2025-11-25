@@ -37,3 +37,22 @@
 .contenido-config {
     padding: 20px;
 }
+
+#guardar-progreso-btn {
+    background: #ffd700;
+    color: #222;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 22px;
+    font-weight: bold;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px #0002;
+    margin-top: 10px;
+}
+
+#guardar-progreso-btn:hover {
+    background: #ffe066;
+    transform: scale(1.08);
+}

@@ -236,3 +236,8 @@
     background: #ccc;
     cursor: not-allowed;
 }
+
+.imganuncio {
+    height: 100%;
+    width: auto;
+}

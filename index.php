@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Verificar si el usuario está autenticado con el sistema de Kernel Enterprise
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || !isset($_SESSION['user_id'])) {
+    header('Location: /Kernel Enterprise/Sistema de login/login.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,21 +19,23 @@
     <link rel="stylesheet" href="Configuracion.css">
     <link rel="stylesheet" href="Misiones.css">
     <link rel="stylesheet" href="Caja.css">
-    <script src="java.js" defer></script>
-    <script src="misiones.js" defer></script>
-    <script src="Caja.js" defer></script>
+    <link rel="stylesheet" href="animaciones.css">
 </head>
 
 <body style="zoom: 80%;">
-
+<div class="telefono">
+    <p id="Bonus-Celu">¡BONUS!: 0</p>
+</div>
+<!-- Agrega el contador para evitar errores en java.js -->
+<div id="contador" style="display:none;"></div>
 <div class="container">
     <div class="computadora">
         <div class="screen">
             <img id="pc" src="img/pc.png" alt="PC">
-            <img id="imghotkey" src="img/hotkey.png" alt="HotKey">
+            <img id="imghotkey" src="img/hotkey sb.png" alt="HotKey">
             <img id="clicker" src="img/clicker.png" alt="Bitcoin">
-            <img id="teclado" src="img/teclado1.png" alt="Teclado">
-            <img id="gabinete" src="img/gabinete-base.png" alt="Gabinete" class="gabinete">
+            <img id="teclado" src="img/Teclado Base.png" alt="Teclado">
+            <img id="mouse" src="img/Mouse Base.png" alt="Mouse">
             <p id="bitcoin">Bitcoins: $0</p>
             <p id="clicks">Poder de Clicks: 1</p>
             <p id="auto-clicks">Clicks automáticos: 0</p>
@@ -36,6 +46,7 @@
             <img src="img/caja.png" alt="Cajas" id="caja-btn">
             <div id="click-effect" class="click-effect"></div> 
         </div>
+
 
     <div id="ventana-tienda" style="display:none;">
         <div class="barra-navegador">
@@ -186,31 +197,31 @@
             </div>
         </div>
         <div class="barra-herramientas">
-            <button class="btn-herramienta">←</button>
-            <button class="btn-herramienta">→</button>
-            <button class="btn-herramienta">↑</button>
+            <button class="btn-herramienta">⬅️</button>
+            <button class="btn-herramienta">➡️</button>
+            <button class="btn-herramienta">⬆️</button>
             <div class="ruta-actual">Admin > Background Engine</div>
         </div>
         <div class="contenido-explorador">
             <div class="sidebar">
                 <div class="item-sidebar activo">
-                    <img src="img/icono-esta-pc.png" alt="Esta PC">
+                    <img src="img/Escritorio.png" alt="Esta PC">
                     <span>Escritorio</span>
                 </div>
                 <div class="item-sidebar">
-                    <img src="img/icono-documentos.png" alt="Documentos">
+                    <img src="img/Documentos.png" alt="Documentos">
                     <span>Documentos</span>
                 </div>
                 <div class="item-sidebar">
-                    <img src="img/icono-descargas.png" alt="Descargas">
+                    <img src="img/Descargas.png" alt="Descargas">
                     <span>Descargas</span>
                 </div>
                 <div class="item-sidebar">
-                    <img src="img/icono-imagenes.png" alt="Imágenes">
+                    <img src="img/Imagenes.png" alt="Imágenes">
                     <span>Imágenes</span>
                 </div>
                 <div class="item-sidebar">
-                    <img src="img/icono-musica.png" alt="Música">
+                    <img src="img/Musica.png" alt="Música">
                     <span>Música</span>
                 </div>
             </div>
@@ -282,12 +293,29 @@
     </div>
     <div class="contenido-config">
         <h3>Opciones</h3>
+        <button id="guardar-progreso-btn" style="margin-top:15px;padding:10px 20px;font-size:1em;">Guardar Progreso</button>
+        <!-- Apartado de cuenta -->
+        <hr style="margin:20px 0;">
+        <div id="config-cuenta" style="margin-top:10px;">
+            <h4>Cuenta</h4>
+            <div>
+                Usuario: <span id="config-usuario" style="font-weight:bold;"><?php echo htmlspecialchars($_SESSION['username'] ?? ''); ?></span>
+            </div>
+            <form method="post" action="logout.php" style="margin-top:10px;">
+                <button type="submit" id="cerrar-sesion-btn" style="background:#f02525;color:#fff;padding:8px 18px;border:none;border-radius:6px;font-weight:bold;cursor:pointer;">Cerrar sesión</button>
+            </form>
+        </div>
     </div>
-</div>
+</div>  
 
-<!-- Alerta flotante para mensajes -->
 <div id="alerta-juego" class="alerta-juego"></div>
-
 </div>
+<script src="animaciones.js"></script>
+<script src="java.js"></script>
+<script src="misiones.js"></script>
+<script src="Caja.js"></script>
 </body>
 </html>
+
+<!-- Verifica que los archivos img/gabinete-base.png y PantallaInicio.css existan en el servidor.
+Si no existen, crea archivos vacíos o de prueba con esos nombres en la carpeta correspondiente. -->

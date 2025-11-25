@@ -1,86 +1,429 @@
 /* --- Estilos para las mejoras de nivel --- */
-.gabinete-lv10 {
-    position: absolute;
-    width: 120%;
+#gabinete.gabinete-mejorado {
+    /* No cambiar width para evitar empujar otros elementos; aplicar escala en su lugar */
+    transform: scale(5.5);
+    transform-origin: center bottom;
+    transition: transform 0.3s ease;
+    z-index: 3;
     left: -10%;
-    bottom: 15%;
-    z-index: 30;
-    transition: all 0.3s ease;
+    top: 85%;
 }
 
-.teclado-lv5 {
-    position: absolute;
-    width: 95%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-}
-
-.monitor-lv5 {
-    position: relative;
-    width: 110%;
-    margin-left: -5%;
-    z-index: 4;
-    transform-origin: center;
+/* Estilos específicos para teclado nivel 5: se aplican cuando JS añade la clase .teclado-lv5 */
+#teclado.teclado-lv5 {
+    width: 90%; 
+    bottom: -27%;    
+    left: 45%;   
+    transform: translateX(-50%) scale(1.05);
+    z-index: 3;
 }
 
 /* Ajustes para nivel 5+ */
 .screen.monitor-lv5 {
     width: 110%;
-    margin-left: -5%;
+    left: -5%;
+    margin-top: -11%;
     z-index: 4;
     transform-origin: center;
 }
 
 .screen.monitor-lv5 #clicker {
-    left: 30%;
-    top: 15%;
+    left: 20%;
+    top: 21%;
     scale: 2;
 }
 
 
 .screen.monitor-lv5 #tienda {
-    left: 76%;
-    top: 11%;
+    left: 74%;
+    top: 17.5%;
     scale: 1.4;
 }
 
 .screen.monitor-lv5 #archivos {
-    left: 76%;
-    top: 21%;
+    left: 74%;
+    top: 26%;
     scale: 1.4;
 }
 
 .screen.monitor-lv5 #config-btn {
-    left: 76%;
-    top: 31%;
-    scale: 1.4;
-}
-
-.screen.monitor-lv5 #misiones-btn {
-    left: 76%;
-    top: 31%;
+    left: 74%;
+    top: 34.5%;
     scale: 1.4;
 }
 
 .screen.monitor-lv5 #caja-btn {
-    left: 66%;
-    top: 11%;
+    left: 65%;
+    top: 17.5%;
     scale: 1.4;
 }
 
-.screen.monitor-lv5 #bitcoin { top: 32%; left:15%; }
-.screen.monitor-lv5 #clicks { top: 35%; left:15%; }
-.screen.monitor-lv5 #auto-clicks { top: 38%; left:15%; }
+.screen.monitor-lv5 #misiones-btn {
+    left: 65%;
+    top: 26%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv5 #bitcoin { top: 38%; left:15%; }
+.screen.monitor-lv5 #clicks { top: 40.5%; left:15%; }
+.screen.monitor-lv5 #auto-clicks { top: 43%; left:15%; }
 
 #clicker, #tienda, #archivos, #config-btn,
 #bitcoin, #clicks, #auto-clicks {
     transition: all 0.3s ease;
 }
 
-#gabinete.gabinete-mejorado {
-    width: 100%;
-    max-width: 400px;
-    transition: width 0.3s;
+
+/* Ajustes para nivel 10+ */
+.screen.monitor-lv10 {
+    width: 110%;
+    margin-left: -5%;
+    margin-top: -5%;
+    z-index: 4;
+    transform-origin: center;
 }
+
+.screen.monitor-lv10 #clicker {
+    left: 20%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv10 #tienda {
+    left: 77%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv10 #archivos {
+    left: 77%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv10 #config-btn {
+    left: 77%;
+    top: 35.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv10 #caja-btn {
+    left: 67.5%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv10 #misiones-btn {
+    left: 67.5%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv10 #bitcoin { top: 36.5%; left:15%; }
+.screen.monitor-lv10 #clicks { top: 39%; left:15%; }
+.screen.monitor-lv10 #auto-clicks { top: 41.5%; left:15%; }
+
+
+/* Ajustes para nivel 15+ */
+.screen.monitor-lv15 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv15 #clicker {
+    left: 20%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv15 #tienda {
+    left: 76%;
+    top: 18.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv15 #archivos {
+    left: 76%;
+    top: 27.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv15 #config-btn {
+    left: 76%;
+    top: 36.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv15 #caja-btn {
+    left: 66.5%;
+    top: 18.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv15 #misiones-btn {
+    left: 66.5%;
+    top: 27.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv15 #bitcoin { top: 36.5%; left:15%; }
+.screen.monitor-lv15 #clicks { top: 39%; left:15%; }
+.screen.monitor-lv15 #auto-clicks { top: 41.5%; left:15%; }
+
+
+/* Ajustes para nivel 20+ */
+.screen.monitor-lv20 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv20 #clicker {
+    left: 18%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv20 #tienda {
+    left: 79%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv20 #archivos {
+    left: 79%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv20 #config-btn {
+    left: 79%;
+    top: 35.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv20 #caja-btn {
+    left: 69.5%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv20 #misiones-btn {
+    left: 69.5%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv20 #bitcoin { top: 36.5%; left:15%; }
+.screen.monitor-lv20 #clicks { top: 39%; left:15%; }
+.screen.monitor-lv20 #auto-clicks { top: 41.5%; left:15%; }
+
+
+/* Ajustes para nivel 25+ */
+.screen.monitor-lv25 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv25 #clicker {
+    left: 18%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv25 #tienda {
+    left: 79%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv25 #archivos {
+    left: 79%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv25 #config-btn {
+    left: 79%;
+    top: 35.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv25 #caja-btn {
+    left: 69.5%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv25 #misiones-btn {
+    left: 69.5%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv25 #bitcoin { top: 36.5%; left:15%; }
+.screen.monitor-lv25 #clicks { top: 39%; left:15%; }
+.screen.monitor-lv25 #auto-clicks { top: 41.5%; left:15%; }
+
+
+
+/* Ajustes para nivel 30+ */
+.screen.monitor-lv30 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv30 #clicker {
+    left: 18%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv30 #tienda {
+    left: 79%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv30 #archivos {
+    left: 79%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv30 #config-btn {
+    left: 79%;
+    top: 35.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv30 #caja-btn {
+    left: 69.5%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv30 #misiones-btn {
+    left: 69.5%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv30 #bitcoin { top: 36.5%; left:15%; }
+.screen.monitor-lv30 #clicks { top: 39%; left:15%; }
+.screen.monitor-lv30 #auto-clicks { top: 41.5%; left:15%; }
+
+
+
+/* Ajustes para nivel 35+ */
+.screen.monitor-lv35 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv35 #clicker {
+    left: 18%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv35 #tienda {
+    left: 79%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv35 #archivos {
+    left: 79%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv35 #config-btn {
+    left: 79%;
+    top: 35.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv35 #caja-btn {
+    left: 69.5%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv35 #misiones-btn {
+    left: 69.5%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv35 #bitcoin { top: 36.5%; left:15%; }
+.screen.monitor-lv35 #clicks { top: 39%; left:15%; }
+.screen.monitor-lv35 #auto-clicks { top: 41.5%; left:15%; }
+
+
+
+
+/* Ajustes para nivel 40+ */
+.screen.monitor-lv40 {
+    width: 110%;
+    margin-left: -5%;
+    z-index: 4;
+    transform-origin: center;
+}
+
+.screen.monitor-lv40 #clicker {
+    left: 30%;
+    top: 22%;
+    scale: 2;
+}
+
+
+.screen.monitor-lv40 #tienda {
+    left: 74%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv40 #archivos {
+    left: 74%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv40 #config-btn {
+    left: 74%;
+    top: 35.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv40 #caja-btn {
+    left: 64.5%;
+    top: 17.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv40 #misiones-btn {
+    left: 64.5%;
+    top: 26.5%;
+    scale: 1.4;
+}
+
+.screen.monitor-lv40 #bitcoin { top: 38.5%; left:15%; }
+.screen.monitor-lv40 #clicks { top: 41%; left:15%; }
+.screen.monitor-lv40 #auto-clicks { top: 43.5%; left:15%; }
